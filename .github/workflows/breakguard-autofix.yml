@@ -1,15 +1,14 @@
-name: BreakGuard Autofix Dry Run
+name: BreakGuard Autofix
 
 on:
-  push:
-    branches:
-      - breakguard/product-v0.1
-  pull_request:
-    branches:
-      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
-  autofix-dry-run:
+  autofix:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout product branch
@@ -36,7 +35,7 @@ jobs:
           mkdir -p "$RUNNER_TEMP/breakguard-src"
           cp -R breakguard rules tests "$RUNNER_TEMP/breakguard-src/"
 
-      - name: Create disposable vulnerable fixture branch
+      - name: Build vulnerable test fixture
         run: |
           git checkout -B breakguard/ci-fixture origin/main
           mkdir -p shopify
@@ -67,20 +66,13 @@ jobs:
           git add shopify
           git commit -m "Add CI fixture for BreakGuard"
 
-      - name: Exercise safe branch preparation
+      - name: Run BreakGuard and create Draft PR
         env:
           PYTHONPATH: ${{ runner.temp }}/breakguard-src
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           python -m breakguard.github_pr \
+            --repo "${{ github.repository }}" \
             --base breakguard/ci-fixture \
-            --branch breakguard/ci-autofix \
-            --verify-cmd "PYTHONPATH=${RUNNER_TEMP}/breakguard-src python -m pytest -q ${RUNNER_TEMP}/breakguard-src/tests" \
-            --dry-run
-
-      - name: Verify expected repair result
-        run: |
-          ! grep -R "lastIncompleteCheckout" shopify/queries.graphql
-          ! grep -R "priceRule" shopify/queries.graphql
-          grep -R "discountTitle" shopify/queries.graphql
-          grep -R "discountCode" shopify/queries.graphql
-          grep -R "ScriptTag" shopify/legacy.js
+            --branch "breakguard/auto-generated-${{ github.run_id }}" \
+            --verify-cmd "PYTHONPATH=${RUNNER_TEMP}/breakguard-src python -m pytest -q ${RUNNER_TEMP}/breakguard-src/tests"
