@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "breakguard"
-version = "0.1.0"
+dynamic = ["version"]
 description = "Detect and conservatively repair known Shopify API deprecations in source repositories."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -26,6 +26,9 @@ breakguard = "breakguard.cli:main"
 
 [tool.setuptools]
 packages = ["breakguard"]
+
+[tool.setuptools.dynamic]
+version = { attr = "breakguard.__version__" }
 
 [tool.setuptools.package-data]
 breakguard = ["rules/*.json"]
