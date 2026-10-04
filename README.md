@@ -16,6 +16,7 @@ BreakGuard is not published to PyPI yet. Install the current product branch dire
 
 ```bash
 python -m pip install "git+https://github.com/viceprimarleova-sketch/breakguard-test.git@breakguard/product-v0.1"
+breakguard --version
 breakguard --help
 ```
 
@@ -26,8 +27,11 @@ For a complete safe-testing walkthrough, see `TESTER_GUIDE.md`.
 ```bash
 breakguard /path/to/repo
 breakguard /path/to/repo --json
+breakguard /path/to/repo --fix-preview
 breakguard /path/to/repo --apply-fixes
 ```
+
+`--fix-preview` prints a unified diff for supported automatic repairs without modifying the repository. Review the preview before using `--apply-fixes`.
 
 You can also run directly from a source checkout:
 
