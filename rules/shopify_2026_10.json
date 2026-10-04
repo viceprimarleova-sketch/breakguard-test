@@ -1,0 +1,35 @@
+{
+  "rules": [
+    {
+      "id": "SHOPIFY-CA-2026-10-LAST-INCOMPLETE-CHECKOUT",
+      "ecosystem": "shopify",
+      "severity": "high",
+      "pattern": "lastIncompleteCheckout",
+      "message": "Customer.lastIncompleteCheckout is deprecated/removed.",
+      "remediation": "Remove the field or migrate the affected customer-account flow.",
+      "source": "https://shopify.dev/changelog/posts/customer-account-api-last-incomplete-checkout-and-checkout-types-removed",
+      "auto_fix": "remove_graphql_field_block"
+    },
+    {
+      "id": "SHOPIFY-ADMIN-2026-10-PRICERULE",
+      "ecosystem": "shopify",
+      "severity": "high",
+      "pattern": "priceRule",
+      "context": "DraftOrderDiscountNotAppliedWarning",
+      "message": "DraftOrderDiscountNotAppliedWarning.priceRule is deprecated/removed.",
+      "remediation": "Use discountTitle and discountCode.",
+      "source": "https://shopify.dev/changelog/remove-pricerule-from-draft-order-discount-warning",
+      "auto_fix": "replace_price_rule"
+    },
+    {
+      "id": "SHOPIFY-ADMIN-SCRIPTTAG-2027-03",
+      "ecosystem": "shopify",
+      "severity": "medium",
+      "pattern": "ScriptTag",
+      "message": "Legacy ScriptTag usage requires migration review.",
+      "remediation": "Migrate to the supported Shopify extension/app mechanism for this integration.",
+      "source": "https://shopify.dev/changelog",
+      "auto_fix": null
+    }
+  ]
+}
