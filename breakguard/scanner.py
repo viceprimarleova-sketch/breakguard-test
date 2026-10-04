@@ -32,6 +32,14 @@ def iter_files(root: Path) -> Iterable[Path]:
             yield p
 
 
+def _rule_applies_to_path(path: Path, rule: dict) -> bool:
+    extensions = rule.get("extensions")
+    if not extensions:
+        return True
+    allowed = {ext.lower() for ext in extensions}
+    return path.suffix.lower() in allowed
+
+
 def scan(root: Path, rules: list[dict]) -> list[Finding]:
     findings: list[Finding] = []
     for path in iter_files(root):
@@ -42,6 +50,8 @@ def scan(root: Path, rules: list[dict]) -> list[Finding]:
         lines = text.splitlines()
         rel = str(path.relative_to(root))
         for rule in rules:
+            if not _rule_applies_to_path(path, rule):
+                continue
             pattern = rule["pattern"]
             context = rule.get("context")
             for i, line in enumerate(lines, start=1):
