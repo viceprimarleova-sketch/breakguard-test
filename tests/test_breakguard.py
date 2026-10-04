@@ -1,5 +1,7 @@
+from importlib.metadata import version as distribution_version
 from pathlib import Path
 
+import breakguard
 from breakguard.cli import default_rules_path
 from breakguard.scanner import load_rules, scan
 from breakguard.fixer import apply_fixes, preview_fixes
@@ -7,6 +9,10 @@ from breakguard.fixer import apply_fixes, preview_fixes
 
 def _rules():
     return load_rules(default_rules_path())
+
+
+def test_runtime_and_distribution_versions_match():
+    assert breakguard.__version__ == distribution_version("breakguard")
 
 
 def test_scan_and_fix(tmp_path: Path):
