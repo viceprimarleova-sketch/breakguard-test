@@ -38,6 +38,39 @@ def test_scan_and_fix(tmp_path: Path):
     assert after[0].rule_id == "SHOPIFY-ADMIN-SCRIPTTAG-2027-03"
 
 
+def test_price_rule_requires_nearby_warning_context(tmp_path: Path):
+    q = tmp_path / "queries.graphql"
+    q.write_text("""query A {
+  draftOrder(id: "gid://shopify/DraftOrder/1") {
+    warnings {
+      ... on DraftOrderDiscountNotAppliedWarning {
+        discountTitle
+      }
+    }
+  }
+}
+
+query B {
+  somethingElse {
+    one
+    two
+    three
+    four
+    five
+    six
+    seven
+    eight
+    nine
+    priceRule
+  }
+}
+""", encoding="utf-8")
+
+    findings = scan(tmp_path, _rules())
+
+    assert all(f.rule_id != "SHOPIFY-ADMIN-2026-10-PRICERULE" for f in findings)
+
+
 def test_fix_preview_is_unified_diff_and_does_not_modify_file(tmp_path: Path):
     q = tmp_path / "queries.graphql"
     original = """query X {
