@@ -1,5 +1,7 @@
 # BreakGuard V0.1
 
+**Current build: 0.1.0rc1 — release candidate for controlled external testing.**
+
 BreakGuard scans a code repository for known Shopify API deprecations, points to the affected file and line, provides the recorded source and remediation, and applies conservative fixes only for rules that are explicitly safe enough to automate.
 
 ## Current V0.1 rules
@@ -20,7 +22,7 @@ breakguard --version
 breakguard --help
 ```
 
-For a complete safe-testing walkthrough, see `TESTER_GUIDE.md`.
+For a complete safe-testing walkthrough, see `TESTER_GUIDE.md`. Release-candidate status is tracked in `RELEASE_CANDIDATE.md`.
 
 ## Run
 
