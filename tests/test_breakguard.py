@@ -67,3 +67,10 @@ def test_scan_respects_rule_extensions(tmp_path: Path):
 
     assert len(findings) == 2
     assert {f.file for f in findings} == {"legacy.ts", "query.gql"}
+
+
+def test_packaged_default_rules_path_exists():
+    from breakguard.cli import default_rules_path
+    path = default_rules_path()
+    assert path.exists()
+    assert path.name == "shopify_2026_10.json"
