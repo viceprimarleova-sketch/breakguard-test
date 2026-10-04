@@ -40,6 +40,20 @@ def _rule_applies_to_path(path: Path, rule: dict) -> bool:
     return path.suffix.lower() in allowed
 
 
+def _context_matches(lines: list[str], index: int, rule: dict) -> bool:
+    context_before = rule.get("context_before")
+    if context_before:
+        max_lines = int(rule.get("context_max_lines", 12))
+        start = max(0, index - max_lines)
+        return any(context_before in candidate for candidate in lines[start:index + 1])
+
+    context = rule.get("context")
+    if context:
+        return context in "\n".join(lines)
+
+    return True
+
+
 def scan(root: Path, rules: list[dict]) -> list[Finding]:
     findings: list[Finding] = []
     for path in iter_files(root):
@@ -53,17 +67,16 @@ def scan(root: Path, rules: list[dict]) -> list[Finding]:
             if not _rule_applies_to_path(path, rule):
                 continue
             pattern = rule["pattern"]
-            context = rule.get("context")
-            for i, line in enumerate(lines, start=1):
+            for index, line in enumerate(lines):
                 if pattern not in line:
                     continue
-                if context and context not in text:
+                if not _context_matches(lines, index, rule):
                     continue
                 findings.append(Finding(
                     rule_id=rule["id"],
                     severity=rule["severity"],
                     file=rel,
-                    line=i,
+                    line=index + 1,
                     message=rule["message"],
                     remediation=rule["remediation"],
                     source=rule["source"],
