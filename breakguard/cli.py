@@ -5,8 +5,9 @@ import json
 from importlib.resources import files
 from pathlib import Path
 
+from . import __version__
 from .scanner import load_rules, scan
-from .fixer import apply_fixes
+from .fixer import apply_fixes, preview_fixes
 
 
 def default_rules_path() -> Path:
@@ -18,12 +19,25 @@ def main() -> int:
     parser.add_argument("repository", nargs="?", default=".")
     parser.add_argument("--rules", default=str(default_rules_path()))
     parser.add_argument("--json", action="store_true")
-    parser.add_argument("--apply-fixes", action="store_true")
+    parser.add_argument("--version", action="version", version=f"%(prog)s {__version__}")
+    fix_group = parser.add_mutually_exclusive_group()
+    fix_group.add_argument("--fix-preview", action="store_true")
+    fix_group.add_argument("--apply-fixes", action="store_true")
     args = parser.parse_args()
 
     root = Path(args.repository).resolve()
     rules = load_rules(Path(args.rules))
     findings = scan(root, rules)
+
+    if args.fix_preview:
+        previews = preview_fixes(root, findings)
+        if previews:
+            for rel in sorted(previews):
+                print(previews[rel], end="" if previews[rel].endswith("\n") else "\n")
+        else:
+            print("No auto-fixable changes available.")
+        print(f"Previewed files: {len(previews)}")
+        return 1 if findings else 0
 
     if args.apply_fixes:
         changed = apply_fixes(root, findings)
