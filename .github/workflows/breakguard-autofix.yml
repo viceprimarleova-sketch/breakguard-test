@@ -1,0 +1,32 @@
+name: BreakGuard Autofix Dry Run
+
+on:
+  push:
+    branches:
+      - breakguard/product-v0.1
+
+jobs:
+  autofix-dry-run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install test dependency
+        run: python -m pip install --upgrade pip pytest
+
+      - name: Configure git
+        run: |
+          git config user.name "breakguard-bot"
+          git config user.email "breakguard-bot@users.noreply.github.com"
+
+      - name: Exercise safe branch preparation
+        run: |
+          python -m breakguard.github_pr --base main --branch breakguard/ci-autofix --verify-cmd "python -m pytest -q" --dry-run
