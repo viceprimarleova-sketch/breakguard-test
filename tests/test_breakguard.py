@@ -1,11 +1,12 @@
 from pathlib import Path
 
+from breakguard.cli import default_rules_path
 from breakguard.scanner import load_rules, scan
 from breakguard.fixer import apply_fixes, preview_fixes
 
 
 def _rules():
-    return load_rules(Path(__file__).parents[1] / "rules" / "shopify_2026_10.json")
+    return load_rules(default_rules_path())
 
 
 def test_scan_and_fix(tmp_path: Path):
@@ -125,7 +126,6 @@ def test_scan_respects_rule_extensions(tmp_path: Path):
 
 
 def test_packaged_default_rules_path_exists():
-    from breakguard.cli import default_rules_path
     path = default_rules_path()
     assert path.exists()
     assert path.name == "shopify_2026_10.json"
