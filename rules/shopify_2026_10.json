@@ -6,8 +6,8 @@
       "severity": "high",
       "pattern": "lastIncompleteCheckout",
       "extensions": [".graphql", ".gql"],
-      "message": "Customer.lastIncompleteCheckout is deprecated/removed.",
-      "remediation": "Remove the field or migrate the affected customer-account flow.",
+      "message": "Customer.lastIncompleteCheckout is removed in Customer Account API 2026-10.",
+      "remediation": "Remove the field. There is no direct replacement in the Customer Account API; use Storefront API cart flows for active cart/checkout state or Customer.orders for purchase history.",
       "source": "https://shopify.dev/changelog/posts/customer-account-api-last-incomplete-checkout-and-checkout-types-removed",
       "auto_fix": "remove_graphql_field_block"
     },
@@ -17,21 +17,22 @@
       "severity": "high",
       "pattern": "priceRule",
       "extensions": [".graphql", ".gql"],
-      "context": "DraftOrderDiscountNotAppliedWarning",
-      "message": "DraftOrderDiscountNotAppliedWarning.priceRule is deprecated/removed.",
-      "remediation": "Use discountTitle and discountCode.",
+      "context_before": "DraftOrderDiscountNotAppliedWarning",
+      "context_max_lines": 8,
+      "message": "DraftOrderDiscountNotAppliedWarning.priceRule is removed in GraphQL Admin API 2026-10.",
+      "remediation": "Use discountTitle and discountCode on DraftOrderDiscountNotAppliedWarning.",
       "source": "https://shopify.dev/changelog/remove-pricerule-from-draft-order-discount-warning",
       "auto_fix": "replace_price_rule"
     },
     {
       "id": "SHOPIFY-ADMIN-SCRIPTTAG-2027-03",
       "ecosystem": "shopify",
-      "severity": "medium",
+      "severity": "high",
       "pattern": "ScriptTag",
       "extensions": [".js", ".jsx", ".ts", ".tsx", ".mjs", ".cjs"],
-      "message": "Legacy ScriptTag usage requires migration review.",
-      "remediation": "Migrate to the supported Shopify extension/app mechanism for this integration.",
-      "source": "https://shopify.dev/changelog",
+      "message": "Shopify ScriptTag create/update operations are blocked from October 1, 2026, and storefront script tags stop running on March 1, 2027.",
+      "remediation": "Replace storefront JavaScript injection with an app embed block in a theme app extension; use a web pixel when the script only collects analytics or conversion data.",
+      "source": "https://shopify.dev/changelog/online-store-script-tags-deprecation",
       "auto_fix": null
     }
   ]
