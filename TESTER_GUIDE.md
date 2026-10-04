@@ -7,12 +7,13 @@ BreakGuard currently targets a small set of known Shopify API deprecations. This
 - scans a repository for supported Shopify deprecations;
 - reports the affected file and line;
 - links to the source/remediation recorded in the BreakGuard rule;
-- can apply only conservative fixes for rules explicitly marked safe;
+- previews conservative automatic repairs without touching source files;
+- applies only fixes for rules explicitly marked safe;
 - leaves manual-only findings unchanged.
 
 ## Requirements
 
-- Python 3.10 or newer;
+- Python 3.10, 3.11, or 3.12;
 - Git;
 - a local checkout or copy of a Shopify-related code repository.
 
@@ -27,6 +28,7 @@ python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
 python -m pip install "git+https://github.com/viceprimarleova-sketch/breakguard-test.git@breakguard/product-v0.1"
+breakguard --version
 breakguard --help
 ```
 
@@ -37,6 +39,7 @@ py -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install --upgrade pip
 python -m pip install "git+https://github.com/viceprimarleova-sketch/breakguard-test.git@breakguard/product-v0.1"
+breakguard --version
 breakguard --help
 ```
 
@@ -60,17 +63,22 @@ breakguard /path/to/repository --json
 
 Use this to inspect the machine-readable result.
 
-## Test 3 — conservative automatic fixes
+## Test 3 — preview safe fixes
 
-Use only on a disposable clone or a temporary Git branch:
+Before changing source files:
+
+```bash
+breakguard /path/to/repository --fix-preview
+```
+
+This prints a unified diff and does not modify the repository.
+
+## Test 4 — apply conservative automatic fixes
+
+Only after reviewing the preview, and only on a disposable clone or temporary Git branch:
 
 ```bash
 breakguard /path/to/repository --apply-fixes
-```
-
-Then inspect the diff yourself:
-
-```bash
 git diff
 ```
 
@@ -87,7 +95,8 @@ Please record:
 5. any false positive;
 6. any deprecation you expected BreakGuard to catch but it missed;
 7. whether the remediation text was clear;
-8. whether the automatic diff looked safe.
+8. whether the preview matched the applied diff;
+9. whether the automatic diff looked safe.
 
 ## Current supported rule families
 
