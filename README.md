@@ -8,6 +8,8 @@ BreakGuard scans a code repository for known Shopify API deprecations, points to
 - DraftOrderDiscountNotAppliedWarning.priceRule
 - ScriptTag usage (manual review only)
 
+Rules are scoped to relevant source-file extensions so documentation, YAML workflows, and unrelated text files do not create obvious false positives.
+
 ## Run
 
 ```bash
