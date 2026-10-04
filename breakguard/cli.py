@@ -2,16 +2,21 @@ from __future__ import annotations
 
 import argparse
 import json
+from importlib.resources import files
 from pathlib import Path
 
 from .scanner import load_rules, scan
 from .fixer import apply_fixes
 
 
+def default_rules_path() -> Path:
+    return Path(str(files("breakguard").joinpath("rules", "shopify_2026_10.json")))
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(prog="breakguard")
     parser.add_argument("repository", nargs="?", default=".")
-    parser.add_argument("--rules", default=str(Path(__file__).resolve().parents[1] / "rules" / "shopify_2026_10.json"))
+    parser.add_argument("--rules", default=str(default_rules_path()))
     parser.add_argument("--json", action="store_true")
     parser.add_argument("--apply-fixes", action="store_true")
     args = parser.parse_args()
