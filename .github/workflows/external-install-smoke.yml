@@ -32,6 +32,7 @@ jobs:
 
       - name: Verify installed command and bundled rules
         run: |
+          breakguard --version
           breakguard --help
           python -c "from breakguard.cli import default_rules_path; p=default_rules_path(); assert p.exists(), p; print(p)"
 
@@ -40,6 +41,9 @@ jobs:
 
       - name: Confirm scan detects the fixture
         run: python -c "import subprocess; r=subprocess.run(['breakguard','bg-fixture','--json']); raise SystemExit(0 if r.returncode == 1 else 1)"
+
+      - name: Confirm preview shows a diff without changing source
+        run: python -c "import subprocess; from pathlib import Path; p=Path('bg-fixture/query.graphql'); before=p.read_text(); r=subprocess.run(['breakguard','bg-fixture','--fix-preview'], capture_output=True, text=True); assert r.returncode == 1; assert '--- a/query.graphql' in r.stdout; assert '+++ b/query.graphql' in r.stdout; assert p.read_text() == before"
 
       - name: Confirm conservative autofix clears the supported finding
         run: breakguard bg-fixture --apply-fixes
