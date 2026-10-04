@@ -33,7 +33,7 @@ jobs:
 
       - name: Create disposable vulnerable fixture branch
         run: |
-          git checkout -B breakguard/ci-fixture main
+          git checkout -B breakguard/ci-fixture origin/main
           mkdir -p shopify
           cat > shopify/queries.graphql <<'EOF'
           query CustomerCheckout($id: ID!) {
