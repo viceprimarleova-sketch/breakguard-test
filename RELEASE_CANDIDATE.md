@@ -1,6 +1,6 @@
 # BreakGuard V0.1 Release Candidate Checklist
 
-Status: **0.1.0rc1**
+Status: **0.1.0rc1 — ready for controlled external testing**
 
 ## Completed
 
@@ -20,10 +20,10 @@ Status: **0.1.0rc1**
 - [x] Windows external install smoke test
 - [x] Python 3.10 / 3.11 / 3.12 CI matrix
 - [x] external tester guide
+- [x] fresh release-candidate end-to-end Draft PR validation (PR #5)
 
 ## Before final 0.1.0
 
-- [ ] run one fresh end-to-end Draft PR test from the release-candidate code
 - [ ] test against at least one real external Shopify repository or anonymized representative repository
 - [ ] review tester feedback for false positives / missed detections
 - [ ] decide whether to publish a public package or distribute through GitHub first
