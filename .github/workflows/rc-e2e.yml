@@ -1,0 +1,66 @@
+name: BreakGuard RC E2E
+
+on:
+  push:
+    branches:
+      - breakguard/product-v0.1
+    paths:
+      - .github/rc-e2e-trigger
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  rc-e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout release-candidate product branch
+        uses: actions/checkout@v4
+        with:
+          ref: breakguard/product-v0.1
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install release candidate and test runner without dirtying worktree
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install "git+https://github.com/viceprimarleova-sketch/breakguard-test.git@breakguard/product-v0.1"
+          python -m pip install "pytest>=8"
+          breakguard --version
+          test -z "$(git status --porcelain)"
+
+      - name: Configure git
+        run: |
+          git config user.name "breakguard-bot"
+          git config user.email "breakguard-bot@users.noreply.github.com"
+
+      - name: Save release-candidate product source outside worktree
+        run: |
+          mkdir -p "$RUNNER_TEMP/breakguard-rc-src"
+          cp -R breakguard tests "$RUNNER_TEMP/breakguard-rc-src/"
+          cp pyproject.toml "$RUNNER_TEMP/breakguard-rc-src/"
+
+      - name: Checkout controlled vulnerable fixture
+        run: |
+          git checkout -B breakguard/vulnerable-fixture origin/breakguard/vulnerable-fixture
+          test -f shopify/queries.graphql
+          test -f shopify/legacy.js
+          grep -q "lastIncompleteCheckout" shopify/queries.graphql
+          grep -q "priceRule" shopify/queries.graphql
+          grep -q "ScriptTag" shopify/legacy.js
+
+      - name: Run release-candidate BreakGuard and create Draft PR
+        env:
+          PYTHONPATH: ${{ runner.temp }}/breakguard-rc-src
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          python -m breakguard.github_pr \
+            --repo "${{ github.repository }}" \
+            --base breakguard/vulnerable-fixture \
+            --branch "breakguard/rc-e2e-${{ github.run_id }}" \
+            --verify-cmd "PYTHONPATH=${RUNNER_TEMP}/breakguard-rc-src python -m pytest -q ${RUNNER_TEMP}/breakguard-rc-src/tests"
