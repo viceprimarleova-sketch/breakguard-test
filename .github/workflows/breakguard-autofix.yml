@@ -1,0 +1,78 @@
+name: BreakGuard Autofix
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  autofix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout product branch
+        uses: actions/checkout@v4
+        with:
+          ref: breakguard/product-v0.1
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install test dependency
+        run: python -m pip install --upgrade pip pytest
+
+      - name: Configure git
+        run: |
+          git config user.name "breakguard-bot"
+          git config user.email "breakguard-bot@users.noreply.github.com"
+
+      - name: Save product source outside worktree
+        run: |
+          mkdir -p "$RUNNER_TEMP/breakguard-src"
+          cp -R breakguard rules tests "$RUNNER_TEMP/breakguard-src/"
+
+      - name: Build vulnerable test fixture
+        run: |
+          git checkout -B breakguard/ci-fixture origin/main
+          mkdir -p shopify
+          cat > shopify/queries.graphql <<'EOF'
+          query CustomerCheckout($id: ID!) {
+            customer(id: $id) {
+              id
+              lastIncompleteCheckout {
+                id
+              }
+            }
+          }
+
+          query DraftOrderWarning($id: ID!) {
+            draftOrder(id: $id) {
+              warnings {
+                __typename
+                ... on DraftOrderDiscountNotAppliedWarning {
+                  priceRule
+                }
+              }
+            }
+          }
+          EOF
+          cat > shopify/legacy.js <<'EOF'
+          admin.rest.resources.ScriptTag.create({})
+          EOF
+          git add shopify
+          git commit -m "Add CI fixture for BreakGuard"
+
+      - name: Run BreakGuard and create Draft PR
+        env:
+          PYTHONPATH: ${{ runner.temp }}/breakguard-src
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          python -m breakguard.github_pr \
+            --repo "${{ github.repository }}" \
+            --base breakguard/ci-fixture \
+            --branch "breakguard/auto-generated-${{ github.run_id }}" \
+            --verify-cmd "PYTHONPATH=${RUNNER_TEMP}/breakguard-src python -m pytest -q ${RUNNER_TEMP}/breakguard-src/tests"
