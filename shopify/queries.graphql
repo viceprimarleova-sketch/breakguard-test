@@ -1,9 +1,6 @@
 query CustomerCheckout($id: ID!) {
   customer(id: $id) {
     id
-    lastIncompleteCheckout {
-      id
-    }
   }
 }
 
@@ -12,7 +9,8 @@ query DraftOrderWarning($id: ID!) {
     warnings {
       __typename
       ... on DraftOrderDiscountNotAppliedWarning {
-        priceRule
+        discountTitle
+        discountCode
       }
     }
   }
