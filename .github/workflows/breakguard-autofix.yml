@@ -35,36 +35,14 @@ jobs:
           mkdir -p "$RUNNER_TEMP/breakguard-src"
           cp -R breakguard rules tests "$RUNNER_TEMP/breakguard-src/"
 
-      - name: Build vulnerable test fixture
+      - name: Checkout vulnerable fixture
         run: |
-          git checkout -B breakguard/ci-fixture origin/main
-          mkdir -p shopify
-          cat > shopify/queries.graphql <<'EOF'
-          query CustomerCheckout($id: ID!) {
-            customer(id: $id) {
-              id
-              lastIncompleteCheckout {
-                id
-              }
-            }
-          }
-
-          query DraftOrderWarning($id: ID!) {
-            draftOrder(id: $id) {
-              warnings {
-                __typename
-                ... on DraftOrderDiscountNotAppliedWarning {
-                  priceRule
-                }
-              }
-            }
-          }
-          EOF
-          cat > shopify/legacy.js <<'EOF'
-          admin.rest.resources.ScriptTag.create({})
-          EOF
-          git add shopify
-          git commit -m "Add CI fixture for BreakGuard"
+          git checkout -B breakguard/vulnerable-fixture origin/breakguard/vulnerable-fixture
+          test -f shopify/queries.graphql
+          test -f shopify/legacy.js
+          grep -q "lastIncompleteCheckout" shopify/queries.graphql
+          grep -q "priceRule" shopify/queries.graphql
+          grep -q "ScriptTag" shopify/legacy.js
 
       - name: Run BreakGuard and create Draft PR
         env:
@@ -73,6 +51,6 @@ jobs:
         run: |
           python -m breakguard.github_pr \
             --repo "${{ github.repository }}" \
-            --base breakguard/ci-fixture \
+            --base breakguard/vulnerable-fixture \
             --branch "breakguard/auto-generated-${{ github.run_id }}" \
             --verify-cmd "PYTHONPATH=${RUNNER_TEMP}/breakguard-src python -m pytest -q ${RUNNER_TEMP}/breakguard-src/tests"
