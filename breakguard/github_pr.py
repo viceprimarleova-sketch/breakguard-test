@@ -16,6 +16,32 @@ def run(cmd: list[str], cwd: Path | None = None) -> str:
     return proc.stdout.strip()
 
 
+def ensure_clean_worktree(root: Path) -> None:
+    status = run(["git", "status", "--porcelain"], cwd=root)
+    if status:
+        raise RuntimeError("Refusing to run on a dirty Git worktree. Commit or stash changes first.")
+
+
+def run_breakguard_apply(root: Path) -> subprocess.CompletedProcess[str]:
+    result = subprocess.run(
+        [sys.executable, "-m", "breakguard.cli", ".", "--apply-fixes"],
+        cwd=root,
+        text=True,
+        capture_output=True,
+    )
+    # BreakGuard intentionally returns 1 while manual-only findings remain.
+    # Any larger exit code means the scanner itself failed.
+    if result.returncode not in (0, 1):
+        detail = result.stderr.strip() or result.stdout.strip() or f"exit code {result.returncode}"
+        raise RuntimeError(f"BreakGuard scan/fix failed: {detail}")
+    return result
+
+
+def changed_paths(root: Path) -> list[str]:
+    output = run(["git", "diff", "--name-only"], cwd=root)
+    return [line for line in output.splitlines() if line.strip()]
+
+
 def github_request(method: str, url: str, token: str, payload: dict | None = None) -> dict:
     data = None if payload is None else json.dumps(payload).encode("utf-8")
     req = request.Request(
@@ -48,19 +74,16 @@ def main() -> int:
     args = parser.parse_args()
 
     root = Path.cwd()
+    ensure_clean_worktree(root)
     run(["git", "checkout", "-B", args.branch, args.base], cwd=root)
+    ensure_clean_worktree(root)
 
-    scan = subprocess.run(
-        [sys.executable, "-m", "breakguard.cli", ".", "--apply-fixes"],
-        cwd=root,
-        text=True,
-        capture_output=True,
-    )
+    scan = run_breakguard_apply(root)
     print(scan.stdout)
     if scan.stderr:
         print(scan.stderr, file=sys.stderr)
 
-    changed = run(["git", "status", "--porcelain"], cwd=root)
+    changed = changed_paths(root)
     if not changed:
         print("No auto-fixable changes produced.")
         return 0
@@ -70,7 +93,8 @@ def main() -> int:
         print("Verification failed; refusing to continue.", file=sys.stderr)
         return verify.returncode
 
-    run(["git", "add", "-A"], cwd=root)
+    run(["git", "diff", "--check"], cwd=root)
+    run(["git", "add", "--", *changed], cwd=root)
     run(["git", "commit", "-m", "BreakGuard: apply safe deprecation fixes"], cwd=root)
 
     if args.dry_run:
@@ -101,7 +125,9 @@ def main() -> int:
                 "Generated automatically by BreakGuard V0.1.\n\n"
                 "Only conservative auto-fixes were applied.\n"
                 "Verification passed before this Draft PR was created.\n"
-                "Manual-only findings remain unchanged."
+                "Manual-only findings remain unchanged.\n\n"
+                "Changed files:\n"
+                + "\n".join(f"- `{path}`" for path in changed)
             ),
         },
     )
