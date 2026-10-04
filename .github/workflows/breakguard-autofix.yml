@@ -31,8 +31,10 @@ jobs:
           git config user.name "breakguard-bot"
           git config user.email "breakguard-bot@users.noreply.github.com"
 
-      - name: Preserve BreakGuard package path
-        run: echo "PYTHONPATH=$GITHUB_WORKSPACE" >> "$GITHUB_ENV"
+      - name: Save product source outside worktree
+        run: |
+          mkdir -p "$RUNNER_TEMP/breakguard-src"
+          cp -R breakguard rules tests "$RUNNER_TEMP/breakguard-src/"
 
       - name: Create disposable vulnerable fixture branch
         run: |
@@ -66,11 +68,13 @@ jobs:
           git commit -m "Add CI fixture for BreakGuard"
 
       - name: Exercise safe branch preparation
+        env:
+          PYTHONPATH: ${{ runner.temp }}/breakguard-src
         run: |
           python -m breakguard.github_pr \
             --base breakguard/ci-fixture \
             --branch breakguard/ci-autofix \
-            --verify-cmd "python -m pytest -q" \
+            --verify-cmd "PYTHONPATH=${RUNNER_TEMP}/breakguard-src python -m pytest -q ${RUNNER_TEMP}/breakguard-src/tests" \
             --dry-run
 
       - name: Verify expected repair result
