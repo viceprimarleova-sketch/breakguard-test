@@ -1,0 +1,17 @@
+query CustomerCheckout($id: ID!) {
+  customer(id: $id) {
+    id
+  }
+}
+
+query DraftOrderWarning($id: ID!) {
+  draftOrder(id: $id) {
+    warnings {
+      __typename
+      ... on DraftOrderDiscountNotAppliedWarning {
+        discountTitle
+        discountCode
+      }
+    }
+  }
+}
