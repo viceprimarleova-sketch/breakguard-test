@@ -29,4 +29,19 @@ Status: **0.1.0rc1 — ready for controlled external testing**
 - [ ] decide whether to publish a public package or distribute through GitHub first
 - [ ] final legal/product wording review before public commercial launch
 
+## Local audit — October 23, 2026 (pending integration)
+
+- Scanned pinned snapshots of Shopify/shopify_app (286 tracked files) and
+  Shopify/shopify-app-template-remix (53 tracked files), without modifying either.
+- The earlier build missed a ScriptTag creation mutation in Ruby. The local
+  correction detects that source occurrence; the Remix template has no findings.
+- Reproduced malformed automatic output using Shopify's published GraphQL
+  examples. Source-range edits and syntax guards now cover those cases.
+- Local Python 3.12 installed-package test result: 39 passed. This is not a new hosted CI run or
+  a new Windows/macOS install result. See `docs/AUDIT_2026-10-23.md`.
+
+The public Ruby scan is evidence for that manual detection rule. It does not
+complete the outstanding real-application GraphQL autofix or developer-value
+validation gates above.
+
 No automatic merge is permitted in V0.1.

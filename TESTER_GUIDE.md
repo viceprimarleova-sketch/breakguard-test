@@ -8,7 +8,7 @@ BreakGuard currently targets a small set of known Shopify API deprecations. This
 - reports the affected file and line;
 - links to the source/remediation recorded in the BreakGuard rule;
 - previews conservative automatic repairs without touching source files;
-- applies only fixes for rules explicitly marked safe;
+- applies supported edits only when occurrence-level syntax and shape guards pass;
 - leaves manual-only findings unchanged.
 
 ## Requirements
@@ -102,7 +102,19 @@ Please record:
 
 - `Customer.lastIncompleteCheckout` in GraphQL;
 - `DraftOrderDiscountNotAppliedWarning.priceRule` in GraphQL;
-- legacy `ScriptTag` usage in JavaScript/TypeScript — manual review only.
+- ScriptTag create/update patterns in JavaScript/TypeScript, Ruby, and GraphQL — manual review only.
+
+The two GraphQL field rules inspect standalone `.graphql`/`.gql` query and
+fragment files. Embedded GraphQL strings for those fields are not covered.
+ScriptTag tests/fixtures and read/delete-only calls are excluded from its rule.
+An empty report means no supported pattern was detected, not that a repository
+is compatible with every Shopify API change.
+
+Automatic editing remains unavailable for ambiguous aliases, removed variable
+or fragment references, empty selections, malformed queries, and unsupported
+price-rule data. In particular, removing the only field under `customer` stays
+manual; BreakGuard does not invent a replacement field. Query syntax is checked,
+but schema validation and response-consumer changes still need application review.
 
 ## Safety boundary
 

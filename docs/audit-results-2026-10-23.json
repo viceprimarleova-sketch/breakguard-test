@@ -1,0 +1,74 @@
+{
+  "date": "2026-10-23",
+  "base_commit": "7c375981ee83bc8964782faa9606119a66246dd7",
+  "working_branch": "fix/shopify-audit-safety",
+  "runtime": "CPython 3.12 / Linux",
+  "baseline_tests": 12,
+  "updated_installed_package_tests": 39,
+  "installed_package_smoke": "passed: scan, JSON, non-mutating preview, apply, rescan",
+  "wheel_source_hashes_match": true,
+  "before": [
+    {
+      "repository": "Shopify/shopify_app",
+      "commit": "68fd8e4931b2934b6d70950bf398c79310d7268a",
+      "findings": []
+    },
+    {
+      "repository": "Shopify/shopify-app-template-remix",
+      "commit": "2d966b7bda76d0b4d9730538048e4242860659c2",
+      "findings": []
+    }
+  ],
+  "after": [
+    {
+      "repository": "Shopify/shopify_app",
+      "commit": "68fd8e4931b2934b6d70950bf398c79310d7268a",
+      "tracked_files": 286,
+      "findings": [
+        {
+          "rule_id": "SHOPIFY-ADMIN-SCRIPTTAG-2027-03",
+          "severity": "high",
+          "file": "lib/shopify_app/managers/script_tags_manager.rb",
+          "line": 106,
+          "message": "Potential Shopify ScriptTag create/update usage requires manual review: creation and updates are blocked from October 1, 2026; storefront injection stops on March 1, 2027.",
+          "remediation": "Replace storefront JavaScript injection with an app embed block in a theme app extension; use a web pixel when the script only collects analytics or conversion data.",
+          "source": "https://shopify.dev/changelog/online-store-script-tags-deprecation",
+          "auto_fix": null
+        }
+      ]
+    },
+    {
+      "repository": "Shopify/shopify-app-template-remix",
+      "commit": "2d966b7bda76d0b4d9730538048e4242860659c2",
+      "tracked_files": 53,
+      "findings": []
+    }
+  ],
+  "graphql_before": [
+    {
+      "file": "customer.graphql",
+      "valid_input": true,
+      "output_parse_error": "Syntax Error: Expected Name, found '}'.",
+      "output": "query CustomerCheckout {\n  customer {\n  }\n}\n"
+    },
+    {
+      "file": "warning.graphql",
+      "valid_input": true,
+      "output_parse_error": "Syntax Error: Unexpected '}'.",
+      "output": "fragment WarningFields on DraftOrderDiscountNotAppliedWarning {\n  discountTitle\n  discountCode\n    title\n    discountCodes(first: 1) {\n      nodes {\n        code\n      }\n    }\n  }\n}\n"
+    }
+  ],
+  "graphql_after": {
+    "changed": [
+      "warning.graphql"
+    ],
+    "manual": [
+      "customer.graphql"
+    ],
+    "all_outputs_parse": true
+  },
+  "external_repositories_modified": false,
+  "remote_ci_rerun": false,
+  "developer_value_validated": false,
+  "integration_status": "review branch; product branch not updated"
+}

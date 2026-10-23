@@ -1,9 +1,12 @@
 from __future__ import annotations
 
 import json
+import re
+from collections import Counter
 from dataclasses import dataclass, asdict
 from pathlib import Path
 from typing import Iterable
+from .graphql_edits import GRAPHQL_ACTIONS, matches_action, plan_edits, query_fields
 
 
 @dataclass
@@ -33,6 +36,10 @@ def iter_files(root: Path) -> Iterable[Path]:
 
 
 def _rule_applies_to_path(path: Path, rule: dict) -> bool:
+    if any(part in rule.get("exclude_path_parts", []) for part in path.parts):
+        return False
+    if rule.get("exclude_test_files") and re.search(r"(?:^test_|_test\.|\.(?:test|spec)\.)", path.name):
+        return False
     extensions = rule.get("extensions")
     if not extensions:
         return True
@@ -64,22 +71,48 @@ def scan(root: Path, rules: list[dict]) -> list[Finding]:
         lines = text.splitlines()
         rel = str(path.relative_to(root))
         for rule in rules:
-            if not _rule_applies_to_path(path, rule):
+            if not _rule_applies_to_path(Path(rel), rule):
                 continue
             pattern = rule["pattern"]
+            action = rule.get("auto_fix")
+            if action in GRAPHQL_ACTIONS:
+                fields = query_fields(text)
+                if fields is not None:
+                    matched = [field for field in fields if matches_action(field, action)]
+                    edits = plan_edits(text, {(field.line, action) for field in matched}, fields)
+                    matched_counts = Counter(field.line for field in matched)
+                    edit_counts = Counter(edit.line for edit in edits)
+                    safe_lines = {line for line, count in matched_counts.items()
+                                  if edit_counts[line] == count}
+                    for field in matched:
+                        findings.append(Finding(
+                            rule_id=rule["id"], severity=rule["severity"], file=rel,
+                            line=field.line, message=rule["message"],
+                            remediation=rule["remediation"], source=rule["source"],
+                            auto_fix=action if field.line in safe_lines else None,
+                        ))
+                    continue
             for index, line in enumerate(lines):
-                if pattern not in line:
+                if rule.get("regex"):
+                    if line.lstrip().startswith(("#", "//", "*", "/*")):
+                        continue
+                    if not re.search(rule["regex"], line):
+                        continue
+                elif pattern not in line:
                     continue
                 if not _context_matches(lines, index, rule):
+                    continue
+                if action in GRAPHQL_ACTIONS and line.lstrip().startswith("#"):
                     continue
                 findings.append(Finding(
                     rule_id=rule["id"],
                     severity=rule["severity"],
                     file=rel,
                     line=index + 1,
-                    message=rule["message"],
+                    message=("Potential match in an unparseable GraphQL document; confirm manually. "
+                             + rule["message"]) if action in GRAPHQL_ACTIONS else rule["message"],
                     remediation=rule["remediation"],
                     source=rule["source"],
-                    auto_fix=rule.get("auto_fix"),
+                    auto_fix=None if action in GRAPHQL_ACTIONS else action,
                 ))
     return findings

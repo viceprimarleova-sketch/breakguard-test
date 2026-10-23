@@ -8,9 +8,29 @@ BreakGuard scans a code repository for known Shopify API deprecations, points to
 
 - `Customer.lastIncompleteCheckout`
 - `DraftOrderDiscountNotAppliedWarning.priceRule`
-- `ScriptTag` usage (manual review only)
+- ScriptTag create/update patterns in JavaScript/TypeScript, Ruby, and GraphQL (manual review only)
 
 Rules are scoped to relevant source-file extensions so documentation, YAML workflows, and unrelated text files do not create obvious false positives.
+
+## Coverage and edit limits
+
+The two GraphQL field rules inspect executable queries/fragments in standalone
+`.graphql` and `.gql` files. They do not inspect those fields inside JavaScript,
+TypeScript, or Ruby strings. Schema declarations and GraphQL comments/string
+values are not executable field selections.
+
+GraphQL edits use parsed source ranges and preserve surrounding text. Unsafe
+occurrences stay manual: aliases, removed variable/fragment references, empty
+selections, malformed documents, or unsupported price-rule response data. The
+price-rule fix replaces the entire supported nested selection. ScriptTag results
+are candidates for manual review; read/delete operations and test/fixture paths
+are excluded from that rule. Dynamic calls or other languages may be missed.
+
+Parsing verifies GraphQL syntax only. It does not establish the target API
+version, validate a live Shopify schema, or update application code that consumes
+the changed response shape. Review those consumers and run application tests.
+
+The local audit is documented in `docs/AUDIT_2026-10-23.md`.
 
 ## Quick install for testers
 
