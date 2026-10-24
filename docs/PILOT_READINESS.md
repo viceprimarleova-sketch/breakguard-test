@@ -2,9 +2,9 @@
 
 ## Concrete state
 
-Version `0.1.0rc2` is a functional candidate prepared for review and controlled
-testing. It is not a finished commercial launch. Changes remain on a local
-review branch; the Founder has required approval before publication/integration.
+Version `0.1.0rc2` is integrated into `breakguard/product-v0.1` for controlled
+testing after the Founder's approval of PR #6. The reviewed code passed the
+77-test suite and all six hosted checks. It is not a commercial launch.
 The existing private synthetic web demonstration has not been changed/published.
 
 ## Delivered or prepared
@@ -25,7 +25,7 @@ The existing private synthetic web demonstration has not been changed/published.
 
 | Gate | State | Next evidence/action |
 | --- | --- | --- |
-| Candidate functionality | Local tests and installed wheel verification recorded in audit | Review the exact patch and run hosted matrix after publication approval |
+| Candidate functionality | 77 tests and six hosted checks passed on reviewed code; PR #6 integrated with approval | Verify the current product-branch installation; retain exact commit for evaluations |
 | Representative sources | Public Ruby and React Router snapshots scanned read-only | Shopify developer assesses a known relevant case and response consumers locally |
 | Customer usefulness | Unvalidated | Complete the prepared developer protocol and record actual feedback |
 | Price | EUR 49 hypothesis only | Ask a consenting relevant developer about that exact offer |

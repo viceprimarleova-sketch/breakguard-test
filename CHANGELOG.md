@@ -2,9 +2,9 @@
 
 All notable changes to BreakGuard are recorded here.
 
-## 0.1.0rc2 — Pilot review candidate, not yet integrated or published
+## 0.1.0rc2 — Integrated for controlled testing
 
-### Follow-up prepared for review
+### Included backup protection follow-up
 
 - Protect each new backup snapshot with its own ignore file, preserving a
   project's existing `.breakguard/.gitignore`. Regression tests reproduce the

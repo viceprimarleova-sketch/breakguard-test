@@ -1,8 +1,10 @@
 # BreakGuard V0.1 release checklist
 
-Candidate: **0.1.0rc2**, staged locally on `work/pilot-readiness-v0.1` above the
-reviewed rc1 fixes. The product branch is not integrated. No automatic merge is
-permitted in V0.1. See `docs/PILOT_READINESS.md` for distinct release/market gates.
+Candidate: **0.1.0rc2**, integrated into `breakguard/product-v0.1` via PR #6 with
+the Founder's explicit approval. Merge commit:
+`f0976e2125dfd12c6aae9c680e2696ca17c328bf`.
+This remains a controlled testing candidate. Unattended merge stays disabled.
+See `docs/PILOT_READINESS.md` for distinct release/market gates.
 
 ## Implemented
 
@@ -19,15 +21,23 @@ permitted in V0.1. See `docs/PILOT_READINESS.md` for distinct release/market gat
 - [x] pilot offer, price hypothesis, draft commercial/data terms and feedback form
 - [x] offline payment simulation and Sandbox-only adapter; no live mode
 
-## Evidence still required for this candidate
+## Verified technical and integration gates
 
-- [ ] hosted Python 3.10/3.11/3.12 and Windows/macOS/Linux checks on the exact rc2
-  review commit, after approval to publish that branch
+- [x] 77 tests against a separately installed wheel with isolated imports
+- [x] reviewed head `b111a9ed2d6f92c88d35c2c40f61ae632368443f` passed hosted
+  Python 3.10/3.11/3.12 and Windows/macOS/Linux installed workflow checks
+- [x] Founder approved PR #6 integration for controlled testing
+
+Current product-branch checks are recorded in GitHub Actions. Historical audit
+files preserve their preparation-time status rather than claiming later runs.
+
+## Before final 0.1.0 or commercial launch
+
 - [ ] independent Shopify developer validation on representative supported code,
   including proposed edits, response consumers and the application's own tests
 - [ ] actual PayPal Sandbox create/approve/capture/cancel/retry evidence after
   owner-controlled secure configuration
-- [ ] Founder review/integration approval and final version/distribution choice
+- [ ] Founder approval of final 0.1.0 release and distribution choice
 - [ ] approved seller/customer terms, support, total/tax treatment and legal review
 - [ ] approved live payment/fulfillment implementation before charging
 

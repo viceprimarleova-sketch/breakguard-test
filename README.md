@@ -1,6 +1,6 @@
 # BreakGuard V0.1
 
-**0.1.0rc2 — candidate for controlled pilot review; not a commercial launch.**
+**0.1.0rc2 — integrated for controlled testing; commercial validation remains open.**
 
 BreakGuard is a local Python tool for three known Shopify deprecation rule
 families. It reports file/line locations and official guidance, previews
@@ -24,11 +24,19 @@ python3 -m venv .venv
 .venv/bin/breakguard --version
 ```
 
-Python 3.10 or newer is required. The new candidate is verified locally on
-Linux/Python 3.12; exact-candidate CI on other platforms remains a release gate.
-For a source checkout, use `python -m pip install '.[test]'` instead.
-The existing GitHub product branch still contains the earlier candidate until
-the Founder approves integration; installing that branch does not install rc2.
+Python 3.10 or newer is required. The reviewed code passed 77 installed-package
+tests and hosted checks on Python 3.10–3.12, plus the installed workflow on
+Ubuntu, macOS and Windows. PR #6 was integrated with the Founder's approval.
+
+The product branch now provides rc2 directly (Git is required for this route):
+
+```sh
+python -m pip install "git+https://github.com/viceprimarleova-sketch/breakguard-test.git@breakguard/product-v0.1"
+breakguard --version
+```
+
+For reproducible evaluations, pin the tested commit recorded in the delivery
+kit. For a local source checkout, use `python -m pip install '.[test]'` instead.
 
 ## Detect → preview → edit → verify → restore
 

@@ -1,6 +1,6 @@
 # BreakGuard V0.1 — proposed pilot offer
 
-**Internal draft for Oleg's approval. Not published, offered or accepted.**
+**Working draft for Oleg's approval. Published as review documentation; no client offer has been sent or accepted.**
 
 ## Proposed customer-facing wording
 
