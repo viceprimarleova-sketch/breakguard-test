@@ -42,7 +42,7 @@ jobs:
       - name: Save release-candidate product source outside worktree
         run: |
           mkdir -p "$RUNNER_TEMP/breakguard-rc-src"
-          cp -R breakguard tests "$RUNNER_TEMP/breakguard-rc-src/"
+          cp -R breakguard rules tests "$RUNNER_TEMP/breakguard-rc-src/"
           cp pyproject.toml "$RUNNER_TEMP/breakguard-rc-src/"
 
       - name: Checkout controlled vulnerable fixture

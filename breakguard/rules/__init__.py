@@ -1,0 +1,1 @@
+"""Packaged Shopify rule data."""

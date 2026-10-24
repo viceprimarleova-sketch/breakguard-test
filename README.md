@@ -1,49 +1,110 @@
 # BreakGuard V0.1
 
-**Current build: 0.1.0rc1 — release candidate for controlled external testing.**
+**0.1.0rc2 — candidate for controlled pilot review; not a commercial launch.**
 
-BreakGuard scans a code repository for known Shopify API deprecations, points to the affected file and line, provides the recorded source and remediation, and applies conservative fixes only for rules that are explicitly safe enough to automate.
+BreakGuard is a local Python tool for three known Shopify deprecation rule
+families. It reports file/line locations and official guidance, previews
+supported edits, saves local originals before applying, and can restore them
+when subsequent edits do not conflict. It does not connect to a Shopify store.
 
-## Current V0.1 rules
+## Install the reviewed candidate
 
-- `Customer.lastIncompleteCheckout`
-- `DraftOrderDiscountNotAppliedWarning.priceRule`
-- `ScriptTag` usage (manual review only)
+The delivery kit contains a wheel and its pinned dependency. From the extracted
+kit, create a virtual environment and install without downloading packages:
 
-Rules are scoped to relevant source-file extensions so documentation, YAML workflows, and unrelated text files do not create obvious false positives.
-
-## Quick install for testers
-
-BreakGuard is not published to PyPI yet. Install the current product branch directly from GitHub:
-
-```bash
-python -m pip install "git+https://github.com/viceprimarleova-sketch/breakguard-test.git@breakguard/product-v0.1"
-breakguard --version
-breakguard --help
+```powershell
+py -3 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install --no-index --find-links wheels breakguard==0.1.0rc2
+.\.venv\Scripts\breakguard.exe --version
 ```
 
-For a complete safe-testing walkthrough, see `TESTER_GUIDE.md`. Release-candidate status is tracked in `RELEASE_CANDIDATE.md`.
-
-## Run
-
-```bash
-breakguard /path/to/repo
-breakguard /path/to/repo --json
-breakguard /path/to/repo --fix-preview
-breakguard /path/to/repo --apply-fixes
+```sh
+python3 -m venv .venv
+.venv/bin/python -m pip install --no-index --find-links wheels breakguard==0.1.0rc2
+.venv/bin/breakguard --version
 ```
 
-`--fix-preview` prints a unified diff for supported automatic repairs without modifying the repository. Review the preview before using `--apply-fixes`.
+Python 3.10 or newer is required. The new candidate is verified locally on
+Linux/Python 3.12; exact-candidate CI on other platforms remains a release gate.
+For a source checkout, use `python -m pip install '.[test]'` instead.
+The existing GitHub product branch still contains the earlier candidate until
+the Founder approves integration; installing that branch does not install rc2.
 
-You can also run directly from a source checkout:
+## Detect → preview → edit → verify → restore
 
-```bash
-python -m breakguard.cli /path/to/repo
-python -m pytest -q
+Work on a disposable clone or a temporary Git branch first:
+
+```sh
+breakguard /path/to/repository --report before.json
+breakguard /path/to/repository --fix-preview
+breakguard /path/to/repository --apply-fixes --report after.json
+breakguard /path/to/repository --json
+# Review the diff and run that application's own tests locally.
+# Use the actual identifier printed during apply:
+breakguard /path/to/repository --restore BACKUP_ID
 ```
 
-The scanner returns non-zero while findings remain, which makes it suitable for CI. For manual testing, exit code `1` means findings remain; it does not necessarily mean BreakGuard crashed.
+Reports must use a new `.json` destination; existing files are never overwritten.
+They contain coverage, rule fingerprints, limitations and findings, not source
+snippets. A report may expose file names; redact before sharing it.
 
-## Safety
+Exit codes: `0` means no supported findings remain, `1` means findings remain,
+and `2` means an operational/internal error. An empty result does not establish
+Shopify API compatibility. `--json` remains a JSON array; progress goes to stderr.
+Use `--report` rather than `--json` together with `--fix-preview`.
 
-Automatic fixes are deliberately conservative. Review generated diffs before merge or deployment. Manual-only findings remain unchanged.
+## Coverage
+
+| Rule family | Standalone `.graphql` / `.gql` | Recognized embedded queries |
+| --- | --- | --- |
+| Customer Account `Customer.lastIncompleteCheckout` | Detection and guarded proposed removal | Manual finding only |
+| Admin `DraftOrderDiscountNotAppliedWarning.priceRule` | Detection and guarded proposed replacement | Manual finding only |
+| ScriptTag creation/update | Manual source-pattern review | Manual source-pattern review |
+
+Embedded field detection recognizes static JS/TS template literals marked
+`#graphql`, tagged `gql`/`graphql`, or passed directly to a `graphql`/`gql` call,
+and Ruby `GRAPHQL`/`GQL`/`QUERY`/`MUTATION` heredocs. This is a limited heuristic, not a full host
+language parser. Interpolation, malformed documents, other string forms,
+languages and generated code can be missed. Coverage counts disclose recognized
+documents that were skipped. Scripts are never executed by the scanner.
+
+Aliases, removed variables/fragments, empty selections, invalid syntax and
+unsupported price-rule data stay manual. ScriptTag tests/fixtures and read/delete
+patterns are excluded. All findings need the developer to confirm the actual API
+surface and version. Edits check GraphQL syntax, not a Shopify schema, runtime
+behavior or application response consumers. Application tests are not run by the
+main CLI; the optional GitHub helper runs an operator-selected verification command.
+
+## Local edit safety and data
+
+Scan and preview do not change source. Apply snapshots only the files it changes
+under `.breakguard/backups/BACKUP_ID/`, with hashes and a snapshot-level ignore
+file to keep originals out of ordinary Git adds even when the project already
+has its own `.breakguard/.gitignore`. Existing project settings are preserved.
+Backups created by the earlier build are not changed by this correction; check
+their Git-ignore status locally before staging files. Backups contain source and stay on the
+developer's machine. Restore validates all files first and refuses later edits
+or corrupted snapshots. Do not edit concurrently or manually change manifests.
+Snapshots supplement the developer's Git workflow; they are not remote backups.
+
+Symlinks/out-of-root targets are excluded or rejected; unsupported/non-UTF8 files
+and ignored directories are counted or excluded. Permission/read errors fail the
+scan instead of producing a successful empty result. The local scanner has no
+network calls, account requirement or telemetry. The separate opt-in GitHub helper
+can push a review branch and create a Draft PR using an operator-provided token;
+it never automatically merges and never resets an existing local review branch.
+
+## Pilot preparation
+
+See `docs/PILOT_READINESS.md`, `TESTER_GUIDE.md`, `docs/PILOT_OFFER_DRAFT.md`,
+`docs/PILOT_TERMS_DRAFT.md` and `docs/PAYMENT_TESTING.md`.
+
+The operator-only payment module supports an offline simulation and a PayPal
+Sandbox adapter. There is no live mode or automatic fulfillment:
+
+```sh
+python -m breakguard.pilot_payments --simulate
+```
+
+The private synthetic web prototype remains a separate demonstration. It is not
+a Shopify integration or a live checkout. This work does not publish it.

@@ -1,0 +1,85 @@
+{
+  "date": "2026-10-25",
+  "candidate_version": "0.1.0rc2",
+  "runtime": "3.12.14 / Linux",
+  "source_base": "788c3b6e3f805a0d39e0593d08bef9fcf7ca6eba",
+  "installed_module_hashes": {
+    "__init__.py": "ebb77b8697f933ce4833aac0f3d2cfe5d5cff7d161864496f830f53ed6114825",
+    "backups.py": "4cfb957ff915de1d82394ea69e67968a3e8a8c939b7ed66033b9a2cd2ddf50b7",
+    "cli.py": "dd61696f8cd4200d98e409994f230340dd87c6e14d8fc44593c113a39bd5732c",
+    "embedded.py": "e7407a737c687f443377c258f9e808d14caf392844a27ef37cca9ab348d0b2bd",
+    "fixer.py": "8016d4c88e4ed682a8f92d61214127c884313341e31a7962ad9f2f0e55695542",
+    "github_pr.py": "8d1066184c38a7f6fbb2ebe8b41453cadd56fc1bee3738626026298fe8134f26",
+    "graphql_edits.py": "bbce0f46c2bed19b5c9ba437154fb07bb529b983318798d740da056ef200c9a9",
+    "pilot_payments.py": "d3f7dc3a23fb7e418bcd9a8e65957c7082630c6aac825ce0a7a7e5a26f8be9b4",
+    "reporting.py": "e723017e8d7d971229ade5c4d884f85047dbdc8074a0dac1c269168a63cc258e",
+    "rules/__init__.py": "78233dd7ad995de0a9f84d498198cd1b932d91fbc781c3282625e3563ce407b6",
+    "rules/shopify_2026_10.json": "689c5a2f404ea77d4f5b511205a1080f91ceb9c359817ada00554f981e1893f7",
+    "scanner.py": "841e17463528a0d58eb09e20be0ce0e5355101be5f723e04e05f9c4b22a3f3d2"
+  },
+  "wheel_sha256": "70fd350d3d95e5febc76400782e6fd0d7d0956f19b170357c55e5601929d19ae",
+  "installed_package_tests": 75,
+  "installed_package_test_outcome": "passed with isolated imports",
+  "synthetic_smoke": {
+    "initial_findings": 3,
+    "changed_files": 2,
+    "remaining_manual_findings": 1,
+    "preview_unchanged": true,
+    "exact_restore": true,
+    "later_edit_protected": true
+  },
+  "public_repositories": [
+    {
+      "repository": "https://github.com/Shopify/shopify_app.git",
+      "commit": "68fd8e4931b2934b6d70950bf398c79310d7268a",
+      "tracked_files": 286,
+      "coverage": {
+        "files_seen": 286,
+        "files_scanned": 172,
+        "files_unsupported": 114,
+        "symlinks_skipped": 0,
+        "non_utf8_skipped": 0,
+        "embedded_documents_scanned": 9,
+        "embedded_documents_skipped": 0,
+        "unparseable_graphql_files": 0
+      },
+      "findings": [
+        {
+          "rule_id": "SHOPIFY-ADMIN-SCRIPTTAG-2027-03",
+          "severity": "high",
+          "file": "lib/shopify_app/managers/script_tags_manager.rb",
+          "line": 106,
+          "message": "Potential Shopify ScriptTag create/update usage requires manual review: creation and updates are blocked from October 1, 2026; storefront injection stops on March 1, 2027.",
+          "remediation": "Replace storefront JavaScript injection with an app embed block in a theme app extension; use a web pixel when the script only collects analytics or conversion data.",
+          "source": "https://shopify.dev/changelog/online-store-script-tags-deprecation",
+          "auto_fix": null,
+          "review_reason": "Manual migration required; source pattern only."
+        }
+      ],
+      "unchanged": true
+    },
+    {
+      "repository": "https://github.com/Shopify/shopify-app-template-react-router.git",
+      "commit": "48b841a7746e1b08d1e6d8793b1208f3096e41d0",
+      "tracked_files": 60,
+      "coverage": {
+        "files_seen": 60,
+        "files_scanned": 19,
+        "files_unsupported": 41,
+        "symlinks_skipped": 0,
+        "non_utf8_skipped": 0,
+        "embedded_documents_scanned": 2,
+        "embedded_documents_skipped": 0,
+        "unparseable_graphql_files": 0
+      },
+      "findings": [],
+      "unchanged": true
+    }
+  ],
+  "hosted_candidate_ci_run": false,
+  "actual_paypal_sandbox_transaction": false,
+  "developer_value_validated": false,
+  "revenue_documented": false,
+  "payment_fake_transport_tests": "passed; no actual PayPal transaction",
+  "candidate_review_status": "local branch only; Founder publication/integration approval pending"
+}

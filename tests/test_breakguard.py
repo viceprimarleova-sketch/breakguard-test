@@ -19,6 +19,7 @@ def test_scan_and_fix(tmp_path: Path):
     q = tmp_path / "queries.graphql"
     q.write_text("""query X {
   customer(id: "gid://shopify/Customer/1") {
+    id
     lastIncompleteCheckout {
       id
     }
@@ -82,6 +83,7 @@ def test_fix_preview_is_unified_diff_and_does_not_modify_file(tmp_path: Path):
     q = tmp_path / "queries.graphql"
     original = """query X {
   customer(id: "gid://shopify/Customer/1") {
+    id
     lastIncompleteCheckout {
       id
     }

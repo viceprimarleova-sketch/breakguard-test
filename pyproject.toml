@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -8,7 +8,8 @@ dynamic = ["version"]
 description = "Detect and conservatively repair known Shopify API deprecations in source repositories."
 readme = "README.md"
 requires-python = ">=3.10"
-license = { text = "Proprietary" }
+dependencies = ["graphql-core>=3.2,<3.3"]
+license = "LicenseRef-Proprietary"
 authors = [
   { name = "BreakGuard" }
 ]
@@ -25,10 +26,10 @@ test = ["pytest>=8"]
 breakguard = "breakguard.cli:main"
 
 [tool.setuptools]
-packages = ["breakguard"]
+packages = ["breakguard", "breakguard.rules"]
 
 [tool.setuptools.dynamic]
 version = { attr = "breakguard.__version__" }
 
 [tool.setuptools.package-data]
-breakguard = ["rules/*.json"]
+"breakguard.rules" = ["*.json"]

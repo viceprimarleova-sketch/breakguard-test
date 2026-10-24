@@ -1,32 +1,43 @@
-# BreakGuard V0.1 Release Candidate Checklist
+# BreakGuard V0.1 release checklist
 
-Status: **0.1.0rc1 — ready for controlled external testing**
+Candidate: **0.1.0rc2**, staged locally on `work/pilot-readiness-v0.1` above the
+reviewed rc1 fixes. The product branch is not integrated. No automatic merge is
+permitted in V0.1. See `docs/PILOT_READINESS.md` for distinct release/market gates.
 
-## Completed
+## Implemented
 
-- [x] installable CLI
-- [x] packaged rules
-- [x] scan-only mode
-- [x] JSON output
-- [x] non-destructive fix preview
-- [x] conservative autofix
-- [x] official-source metadata for current Shopify rules
-- [x] false-positive reduction by source extension and nearby context
-- [x] Git safety guards
-- [x] automated verification before Draft PR creation
-- [x] Draft PR generated end-to-end by GitHub Actions
-- [x] Ubuntu external install smoke test
-- [x] macOS external install smoke test
-- [x] Windows external install smoke test
-- [x] Python 3.10 / 3.11 / 3.12 CI matrix
-- [x] external tester guide
-- [x] fresh release-candidate end-to-end Draft PR validation (PR #5)
+- [x] installable CLI with packaged rules, version and help
+- [x] local scan, machine-readable findings, coverage/limits report
+- [x] standalone GraphQL preview and guarded edits
+- [x] static embedded GraphQL detection with manual-only results
+- [x] ScriptTag source-pattern review in JS/TS, Ruby and GraphQL
+- [x] missing-path/error exit codes and JSON output consistency
+- [x] symlink/out-of-root protection and transactional local edit snapshots
+- [x] conflict/integrity-aware restore
+- [x] non-overwriting review-branch creation in the opt-in GitHub helper
+- [x] synthetic installed-package workflow and public-repository scan protocol
+- [x] pilot offer, price hypothesis, draft commercial/data terms and feedback form
+- [x] offline payment simulation and Sandbox-only adapter; no live mode
 
-## Before final 0.1.0
+## Evidence still required for this candidate
 
-- [ ] test against at least one real external Shopify repository or anonymized representative repository
-- [ ] review tester feedback for false positives / missed detections
-- [ ] decide whether to publish a public package or distribute through GitHub first
-- [ ] final legal/product wording review before public commercial launch
+- [ ] hosted Python 3.10/3.11/3.12 and Windows/macOS/Linux checks on the exact rc2
+  review commit, after approval to publish that branch
+- [ ] independent Shopify developer validation on representative supported code,
+  including proposed edits, response consumers and the application's own tests
+- [ ] actual PayPal Sandbox create/approve/capture/cancel/retry evidence after
+  owner-controlled secure configuration
+- [ ] Founder review/integration approval and final version/distribution choice
+- [ ] approved seller/customer terms, support, total/tax treatment and legal review
+- [ ] approved live payment/fulfillment implementation before charging
 
-No automatic merge is permitted in V0.1.
+## Historical evidence
+
+The rc1 correction commit `788c3b6e3f805a0d39e0593d08bef9fcf7ca6eba` passed
+39 local tests and hosted Python 3.10–3.12 / Ubuntu / macOS / Windows checks.
+Those hosted results do not validate rc2. PR #6 remains Draft and unmerged:
+https://github.com/viceprimarleova-sketch/breakguard-test/pull/6
+
+Oleg supplied a Windows screenshot on October 23 showing two changed files and
+one remaining manual finding. It does not establish the installed source SHA,
+all installation steps or Shopify developer usefulness.
