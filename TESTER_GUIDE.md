@@ -1,121 +1,79 @@
-# BreakGuard V0.1 — 5-minute tester guide
+# BreakGuard rc2 — developer validation, 30–60 minutes
 
-BreakGuard currently targets a small set of known Shopify API deprecations. This build is for controlled external testing, not production-wide automatic migration.
+Status: prepared test protocol; no Shopify developer has yet completed this
+protocol. A passing demonstration is functional evidence, not customer validation.
 
-## What it does
+## 1. Safe setup — 5 minutes
 
-- scans a repository for supported Shopify deprecations;
-- reports the affected file and line;
-- links to the source/remediation recorded in the BreakGuard rule;
-- previews conservative automatic repairs without touching source files;
-- applies supported edits only when occurrence-level syntax and shape guards pass;
-- leaves manual-only findings unchanged.
+Install the exact wheel from the kit using its README. Record `breakguard
+--version`, OS, Python version and the public repository commit (or a private
+local identifier that will not be shared). Work in a disposable clone or a clean
+temporary Git branch. No credentials, private code or store access are requested.
 
-## Requirements
+The synthetic `demo_project` should have three findings: two standalone GraphQL
+edits and one manual ScriptTag result. After preview and apply there should be one
+manual finding. `manual_cases` adds static embedded examples that must never be
+changed and a customer-only selection that must stay manual. `coverage_cases`
+contains an interpolated query that should be counted as skipped.
 
-- Python 3.10, 3.11, or 3.12;
-- Git;
-- a local checkout or copy of a Shopify-related code repository.
+## 2. Representative code — 10–15 minutes
 
-For the safest test, use a disposable clone or a temporary Git branch.
+Choose a repository/framework the developer actually understands. Identify its
+Shopify API surface and configured version locally. If it contains no supported
+legacy usage, record that as a control; do not label an injected example as a real
+application discovery. Where possible choose a public historical revision with
+a known supported case, with permission to use its license.
 
-## Install from the current product branch
+Run `breakguard REPO --report before.json` with the report outside REPO. Record
+coverage counts, findings and unsupported/dynamic documents. An exit code of `1`
+is normal while findings remain; `2` is an error and stops the test.
 
-### macOS / Linux
+Independently search for the three supported families using the developer's IDE
+or `rg`. Classify each reported location as relevant, irrelevant or uncertain;
+record known missed locations and why they were missed. Do not infer recall or
+precision across Shopify from one repository.
 
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install --upgrade pip
-python -m pip install "git+https://github.com/viceprimarleova-sketch/breakguard-test.git@breakguard/product-v0.1"
-breakguard --version
-breakguard --help
-```
+## 3. Review, edit and restore — 10–20 minutes
 
-### Windows PowerShell
+Run `breakguard REPO --fix-preview`. Confirm the source is unchanged. For every
+proposed edit, confirm API scope, target version, surrounding selection and code
+that consumes the response. Decline edits the developer cannot assess.
 
-```powershell
-py -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-python -m pip install "git+https://github.com/viceprimarleova-sketch/breakguard-test.git@breakguard/product-v0.1"
-breakguard --version
-breakguard --help
-```
+On the disposable copy only, run `breakguard REPO --apply-fixes --report
+after.json`. Compare the applied diff with the preview, then run that
+application's own tests using its documented command. BreakGuard's CLI does not
+run those tests or certify a live Shopify schema. Keep ScriptTag and embedded
+findings manual.
 
-## Test 1 — scan only
+Run `breakguard REPO --restore PRINTED_BACKUP_ID` and confirm original bytes
+return. Separately verify, on a disposable example, that editing a changed file
+after apply makes restore refuse the operation rather than overwrite later work.
+Keep the local backup if needed; never upload it to us.
 
-Run against the repository you want to inspect:
+## 4. Usefulness and price — 10–15 minutes
 
-```bash
-breakguard /path/to/repository
-```
+Ask the developer to describe their last migration and how they found affected
+code. Show the report, then ask:
 
-BreakGuard prints findings with severity, file, line, remediation, and source.
+1. Which finding or explanation changes what you would do next?
+2. What is missing or misleading? Which source forms are essential?
+3. How does this compare with your current search, schema validation and Shopify
+   dashboard workflow?
+4. Would the proposed EUR 49 one-repository pilot be worth considering? What
+   would have to be demonstrated first? A positive answer is interest, not a sale.
 
-Important: the current CLI exits with code `1` while findings remain. That is intentional for CI usage and does not mean the scanner crashed.
+Record answers in `FEEDBACK_TEMPLATE.md`. Share only voluntary, redacted findings
+and aggregate counts; source files, backups, store identifiers and secrets stay
+local. Do not start a charge during a validation session.
 
-## Test 2 — JSON output
+## Candidate acceptance record
 
-```bash
-breakguard /path/to/repository --json
-```
+- Installation and CLI path: pass/fail + environment.
+- Known supported locations: reported/missed/uncertain, with permitted evidence.
+- Proposed/applied diff and application test outcome: pass/fail/not tested.
+- Restore/conflict behavior: pass/fail.
+- Developer's usefulness judgment: verbatim permissioned short feedback.
+- Paid pilot: declined / interested / accepted offer / paid. Keep these distinct.
 
-Use this to inspect the machine-readable result.
-
-## Test 3 — preview safe fixes
-
-Before changing source files:
-
-```bash
-breakguard /path/to/repository --fix-preview
-```
-
-This prints a unified diff and does not modify the repository.
-
-## Test 4 — apply conservative automatic fixes
-
-Only after reviewing the preview, and only on a disposable clone or temporary Git branch:
-
-```bash
-breakguard /path/to/repository --apply-fixes
-git diff
-```
-
-Do not merge or deploy automatically. V0.1 intentionally leaves unsupported/manual migrations untouched.
-
-## What we want from a tester
-
-Please record:
-
-1. operating system and Python version;
-2. whether installation completed successfully;
-3. repository language/framework;
-4. number of findings;
-5. any false positive;
-6. any deprecation you expected BreakGuard to catch but it missed;
-7. whether the remediation text was clear;
-8. whether the preview matched the applied diff;
-9. whether the automatic diff looked safe.
-
-## Current supported rule families
-
-- `Customer.lastIncompleteCheckout` in GraphQL;
-- `DraftOrderDiscountNotAppliedWarning.priceRule` in GraphQL;
-- ScriptTag create/update patterns in JavaScript/TypeScript, Ruby, and GraphQL — manual review only.
-
-The two GraphQL field rules inspect standalone `.graphql`/`.gql` query and
-fragment files. Embedded GraphQL strings for those fields are not covered.
-ScriptTag tests/fixtures and read/delete-only calls are excluded from its rule.
-An empty report means no supported pattern was detected, not that a repository
-is compatible with every Shopify API change.
-
-Automatic editing remains unavailable for ambiguous aliases, removed variable
-or fragment references, empty selections, malformed queries, and unsupported
-price-rule data. In particular, removing the only field under `customer` stays
-manual; BreakGuard does not invent a replacement field. Query syntax is checked,
-but schema validation and response-consumer changes still need application review.
-
-## Safety boundary
-
-BreakGuard V0.1 is a pre-release developer tool. It should not be treated as a guarantee of compatibility, correctness, or compliance. Always review generated code changes before merge or deployment.
+An unsafe edit or operational false success blocks release. Unsupported essential
+source forms change the product scope before a commercial promise is made.

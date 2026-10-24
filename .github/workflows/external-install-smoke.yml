@@ -22,6 +22,11 @@ jobs:
           - windows-latest
 
     steps:
+      - name: Checkout the candidate smoke protocol
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -50,3 +55,6 @@ jobs:
 
       - name: Confirm conservative autofix clears the supported finding
         run: breakguard bg-fixture --apply-fixes
+
+      - name: Verify full installed workflow and conflict-aware restore
+        run: python scripts/release_smoke.py

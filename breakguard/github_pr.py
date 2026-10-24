@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -42,6 +43,16 @@ def changed_paths(root: Path) -> list[str]:
     return [line for line in output.splitlines() if line.strip()]
 
 
+def create_review_branch(root: Path, branch: str, base: str) -> None:
+    run(["git", "check-ref-format", "--branch", branch], cwd=root)
+    existing = subprocess.run(["git", "show-ref", "--verify", "--quiet", f"refs/heads/{branch}"], cwd=root)
+    if existing.returncode == 0:
+        raise RuntimeError("Review branch already exists; choose a new branch instead of overwriting it.")
+    if existing.returncode != 1:
+        raise RuntimeError("Could not verify whether the review branch already exists.")
+    run(["git", "checkout", "-b", branch, base], cwd=root)
+
+
 def github_request(method: str, url: str, token: str, payload: dict | None = None) -> dict:
     data = None if payload is None else json.dumps(payload).encode("utf-8")
     req = request.Request(
@@ -73,9 +84,16 @@ def main() -> int:
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
 
+    token = os.environ.get("GITHUB_TOKEN")
+    if not args.dry_run:
+        if not args.repo or not re.fullmatch(r"[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+", args.repo):
+            parser.error("--repo owner/name is required when not using --dry-run")
+        if not token:
+            parser.error("GITHUB_TOKEN is required when not using --dry-run")
+
     root = Path.cwd()
     ensure_clean_worktree(root)
-    run(["git", "checkout", "-B", args.branch, args.base], cwd=root)
+    create_review_branch(root, args.branch, args.base)
     ensure_clean_worktree(root)
 
     scan = run_breakguard_apply(root)
@@ -101,16 +119,7 @@ def main() -> int:
         print(f"DRY RUN: prepared branch {args.branch} from {args.base}")
         return 0
 
-    if not args.repo:
-        print("--repo is required when not using --dry-run", file=sys.stderr)
-        return 2
-
-    token = os.environ.get("GITHUB_TOKEN")
-    if not token:
-        print("GITHUB_TOKEN is required when not using --dry-run", file=sys.stderr)
-        return 2
-
-    run(["git", "push", "origin", f"HEAD:{args.branch}", "--force-with-lease"], cwd=root)
+    run(["git", "push", "origin", f"HEAD:refs/heads/{args.branch}"], cwd=root)
 
     pr = github_request(
         "POST",

@@ -10,6 +10,7 @@ from breakguard.github_pr import (
     github_request,
     run,
     run_breakguard_apply,
+    create_review_branch,
 )
 
 
@@ -25,6 +26,30 @@ def _init_repo(path: Path) -> None:
 def test_run_executes_command(tmp_path: Path):
     out = run(["python", "-c", "print('ok')"], cwd=tmp_path)
     assert out == "ok"
+
+
+def test_existing_review_branch_cannot_be_reset(tmp_path: Path):
+    _init_repo(tmp_path)
+    base = run(["git", "rev-parse", "HEAD"], cwd=tmp_path)
+    run(["git", "branch", "breakguard/review"], cwd=tmp_path)
+    with pytest.raises(RuntimeError, match="already exists"):
+        create_review_branch(tmp_path, "breakguard/review", base)
+    assert run(["git", "rev-parse", "breakguard/review"], cwd=tmp_path) == base
+    ensure_clean_worktree(tmp_path)
+
+
+def test_missing_publish_access_cannot_mutate_repository(monkeypatch, tmp_path):
+    from breakguard.github_pr import main
+    _init_repo(tmp_path)
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.delenv("GITHUB_TOKEN", raising=False)
+    monkeypatch.setattr("sys.argv", ["breakguard-pr", "--repo", "owner/repo"])
+    before = run(["git", "branch", "--list"], cwd=tmp_path)
+    with pytest.raises(SystemExit) as exc:
+        main()
+    assert exc.value.code == 2
+    assert run(["git", "branch", "--list"], cwd=tmp_path) == before
+    ensure_clean_worktree(tmp_path)
 
 
 def test_clean_worktree_guard_rejects_local_changes(tmp_path: Path):
