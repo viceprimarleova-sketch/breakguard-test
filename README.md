@@ -78,8 +78,11 @@ main CLI; the optional GitHub helper runs an operator-selected verification comm
 ## Local edit safety and data
 
 Scan and preview do not change source. Apply snapshots only the files it changes
-under `.breakguard/backups/BACKUP_ID/`, with hashes and an ignore file to keep
-originals out of accidental Git adds. Backups contain source and stay on the
+under `.breakguard/backups/BACKUP_ID/`, with hashes and a snapshot-level ignore
+file to keep originals out of ordinary Git adds even when the project already
+has its own `.breakguard/.gitignore`. Existing project settings are preserved.
+Backups created by the earlier build are not changed by this correction; check
+their Git-ignore status locally before staging files. Backups contain source and stay on the
 developer's machine. Restore validates all files first and refuses later edits
 or corrupted snapshots. Do not edit concurrently or manually change manifests.
 Snapshots supplement the developer's Git workflow; they are not remote backups.

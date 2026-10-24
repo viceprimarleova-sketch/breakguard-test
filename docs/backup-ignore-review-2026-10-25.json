@@ -1,0 +1,28 @@
+{
+  "date": "2026-10-25",
+  "base_published_commit": "19dcd421ba62fc7d28d9225f69a2147e65921c1e",
+  "version": "0.1.0rc2",
+  "change": "Per-snapshot Git ignore protection with existing project configuration preserved",
+  "old_regression_cases_failed": 2,
+  "corrected_regression_cases_passed": 2,
+  "installed_package_tests": 77,
+  "runtime": "Linux / Python 3.12",
+  "module_hashes": {
+    "__init__.py": "ebb77b8697f933ce4833aac0f3d2cfe5d5cff7d161864496f830f53ed6114825",
+    "backups.py": "90c58c6c64b925d1e0c929954dd9991b31b8f50edafb284fbc00ed94c5396de6",
+    "cli.py": "dd61696f8cd4200d98e409994f230340dd87c6e14d8fc44593c113a39bd5732c",
+    "embedded.py": "e7407a737c687f443377c258f9e808d14caf392844a27ef37cca9ab348d0b2bd",
+    "fixer.py": "8016d4c88e4ed682a8f92d61214127c884313341e31a7962ad9f2f0e55695542",
+    "github_pr.py": "8d1066184c38a7f6fbb2ebe8b41453cadd56fc1bee3738626026298fe8134f26",
+    "graphql_edits.py": "bbce0f46c2bed19b5c9ba437154fb07bb529b983318798d740da056ef200c9a9",
+    "pilot_payments.py": "d3f7dc3a23fb7e418bcd9a8e65957c7082630c6aac825ce0a7a7e5a26f8be9b4",
+    "reporting.py": "e723017e8d7d971229ade5c4d884f85047dbdc8074a0dac1c269168a63cc258e",
+    "rules/__init__.py": "78233dd7ad995de0a9f84d498198cd1b932d91fbc781c3282625e3563ce407b6",
+    "rules/shopify_2026_10.json": "689c5a2f404ea77d4f5b511205a1080f91ceb9c359817ada00554f981e1893f7",
+    "scanner.py": "841e17463528a0d58eb09e20be0ce0e5355101be5f723e04e05f9c4b22a3f3d2"
+  },
+  "wheel_sha256": "7d488e6afd1e93bd2671b658be107d899c6d55953aea61bf8340064f506e78e0",
+  "hosted_ci_for_followup": "not run; publication pending approval",
+  "integration": "not performed",
+  "older_backups_changed": false
+}

@@ -197,3 +197,22 @@ def test_backup_is_ignored_by_git_and_by_scanner(tmp_path):
     assert not scan(tmp_path, rules())
     status = subprocess.run(["git", "status", "--porcelain"], cwd=tmp_path, capture_output=True, text=True, check=True)
     assert ".breakguard" not in status.stdout
+
+
+@pytest.mark.parametrize("existing_ignore", ["# existing project settings\n", "!backups/\n!backups/**\n"])
+def test_snapshot_stays_ignored_without_changing_existing_project_settings(tmp_path, existing_ignore):
+    import subprocess
+    subprocess.run(["git", "init", "-q"], cwd=tmp_path, check=True)
+    (tmp_path / ".breakguard").mkdir()
+    ignore = tmp_path / ".breakguard" / ".gitignore"
+    ignore.write_text(existing_ignore)
+    (tmp_path / "a.graphql").write_bytes(QUERY)
+    fixed = apply_with_backup(tmp_path, scan(tmp_path, rules()))
+    visible = subprocess.run(
+        ["git", "ls-files", "--others", "--exclude-standard", "--", ".breakguard/backups"],
+        cwd=tmp_path, capture_output=True, text=True, check=True,
+    ).stdout
+    assert not visible, "Original source and manifest must not appear in ordinary git add candidates"
+    assert ignore.read_text() == existing_ignore
+    assert restore_backup(tmp_path, fixed.backup_id) == ["a.graphql"]
+    assert (tmp_path / "a.graphql").read_bytes() == QUERY

@@ -64,6 +64,10 @@ def save_and_apply(root: Path, changes: dict[str, tuple[bytes, bytes]]) -> str:
     backup_id = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ-") + uuid4().hex[:12]
     directory = base / backup_id
     directory.mkdir(mode=0o700)
+    # A project's existing .breakguard/.gitignore may be empty or unignore this
+    # subtree. Protect each new snapshot without changing that user's settings.
+    with (directory / ".gitignore").open("x", encoding="utf-8") as stream:
+        stream.write("*\n")
     manifest = {"schema_version": 1, "repository": str(root), "state": "prepared", "files": []}
     for relative, (original, updated) in changes.items():
         path = safe_path(root, relative)

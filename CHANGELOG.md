@@ -4,6 +4,13 @@ All notable changes to BreakGuard are recorded here.
 
 ## 0.1.0rc2 — Pilot review candidate, not yet integrated or published
 
+### Follow-up prepared for review
+
+- Protect each new backup snapshot with its own ignore file, preserving a
+  project's existing `.breakguard/.gitignore`. Regression tests reproduce the
+  old behavior where originals and manifests appeared in ordinary Git add
+  candidates. This does not remove already tracked files or alter older backups.
+
 - Detect supported GraphQL fields in recognized static JS/TS templates and Ruby
   heredocs, with physical source lines and manual-only findings.
 - Report coverage, skipped documents, explicit limits and a rule fingerprint.
