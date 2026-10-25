@@ -3,7 +3,7 @@
 Status: internal working proposal for selecting the first paid pilot. This is
 not a contract, accepted offer or evidence that anyone has agreed to testing.
 
-## Before offering the EUR 49 paid scope
+## Before offering the GBP 42 paid scope
 
 Ask a consenting developer to assess the following locally. No source upload,
 store credentials, backup archive or store access is needed. Voluntary, redacted
@@ -24,8 +24,11 @@ aggregate answers are sufficient.
    that all cases receive automatic edits.
 5. **Defined commercial scope:** only after fit is established, present the
    complete proposed one-repository offer, limits, support, total/tax, delivery,
-   license and refund terms. Registration/payment eligibility and actual Sandbox
-   tests remain independent gates before charging.
+   license and refund terms. Verify seller/payment eligibility before charging.
+   For the proposed first pilot, the provider-hosted individual invoice and
+   delivery are manual (`PAID_PILOT_RUNBOOK.md`). The separate API adapter still
+   needs an actual Sandbox transaction before claiming that integration works;
+   an offline fake does not validate either route.
 
 ## Decision record
 
@@ -35,7 +38,7 @@ aggregate answers are sufficient.
 | No supported occurrence in checked snapshot | Technical control/expert feedback | Ask about usefulness and missing cases; do not count as buyer validation |
 | Essential query is dynamic, unrecognized or outside the three families | Coverage gap or different migration need | Record permitted evidence; propose scope changes only when justified |
 | Unsafe edit, misleading certainty or failed restore | Technical release blocker | Reproduce and fix before continuing a paid-pilot proposal |
-| Positive comment about EUR 49 | Price interest | Record separately from accepting an offer or paying |
+| Positive comment about GBP 42 | Price interest | Record separately from accepting an offer or paying |
 
 ## Evidence example, not an interview
 

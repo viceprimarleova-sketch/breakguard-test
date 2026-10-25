@@ -13,7 +13,7 @@ from urllib.parse import urlparse
 
 SANDBOX_API = "https://api-m.sandbox.paypal.com"
 OFFER_ID = "breakguard-v01-pilot-draft"
-AMOUNT = {"currency_code": "EUR", "value": "49.00"}
+AMOUNT = {"currency_code": "GBP", "value": "42.00"}
 
 
 class PaymentError(ValueError):

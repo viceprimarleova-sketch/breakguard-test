@@ -20,6 +20,36 @@ def test_offline_simulation_never_accesses_network(monkeypatch):
     assert result["fulfillment_enabled"] is False
 
 
+def test_offline_simulation_uses_the_gbp_42_quote():
+    result = simulate_checkout()
+    assert result["receipt"]["amount"] == {"currency_code": "GBP", "value": "42.00"}
+    assert result["real_money_received"] is False
+    assert result["receipt"]["sandbox_payment_confirmed"] is False
+
+
+def test_previous_eur_49_quote_is_refused_before_capture():
+    client, provider = checkout()
+    provider.order["status"] = "APPROVED"
+    provider.order["purchase_units"][0]["amount"] = {
+        "currency_code": "EUR", "value": "49.00"
+    }
+    with pytest.raises(PaymentError, match="does not match"):
+        client.capture("DEMOORDER001", "capture-key")
+    assert provider.capture_requests == 0
+
+
+def test_old_eur_49_capture_cannot_confirm_a_gbp_42_order():
+    client, provider = checkout()
+    provider.order["status"] = "APPROVED"
+    client.capture("DEMOORDER001", "capture-key")
+    provider.order["purchase_units"][0]["payments"]["captures"][0]["amount"] = {
+        "currency_code": "EUR", "value": "49.00"
+    }
+    with pytest.raises(PaymentError, match="not completed"):
+        client.capture("DEMOORDER001", "capture-key")
+    assert provider.capture_requests == 1
+
+
 def test_completed_capture_is_checked_and_replays_do_not_recapture():
     client, provider = checkout()
     provider.order["status"] = "APPROVED"

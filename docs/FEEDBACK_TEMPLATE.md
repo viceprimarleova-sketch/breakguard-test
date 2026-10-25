@@ -1,6 +1,7 @@
 # Developer feedback — empty record
 
-No interview or payment has been recorded in this template.
+This is an empty optional record for free technical/usefulness feedback.
+No results are prefilled and no payment is required.
 
 - Date / voluntary participant identifier:
 - Shopify experience / framework:
@@ -16,6 +17,6 @@ No interview or payment has been recorded in this template.
 - Last migration problem, in the developer's own words:
 - Which result changed the next action? What was missing?
 - Comparison with existing searches / Shopify alerts / schema tools:
-- EUR 49 pilot: declined / interested / accepted offer / paid:
+- Would you try this workflow again? What would need to improve first?:
 - Permission to quote/share, and exactly what may be shared:
 - Next change justified by this evidence:
