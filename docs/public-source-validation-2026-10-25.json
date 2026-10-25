@@ -1,0 +1,457 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-25",
+  "breakguard_version": "0.1.0rc2",
+  "runtime_source_commit": "461558f3d7bc8db06fe89a6137b278163a1ec7c5",
+  "wheel_sha256": "892c653d9e2d3fc9fdb4eab6a853c8e17befae3c764d4ae92044697920d68628",
+  "cases": [
+    {
+      "name": "official_ruby",
+      "repository": "https://github.com/Shopify/shopify_app",
+      "commit": "68fd8e4931b2934b6d70950bf398c79310d7268a",
+      "tracked_paths_hashed": 286,
+      "tracked_source_unchanged": true,
+      "scan_exit": 1,
+      "preview_exit": 1,
+      "coverage": {
+        "files_seen": 286,
+        "files_scanned": 172,
+        "files_unsupported": 114,
+        "symlinks_skipped": 0,
+        "non_utf8_skipped": 0,
+        "embedded_documents_scanned": 9,
+        "embedded_documents_skipped": 0,
+        "unparseable_graphql_files": 0
+      },
+      "findings": [
+        {
+          "rule_id": "SHOPIFY-ADMIN-SCRIPTTAG-2027-03",
+          "severity": "high",
+          "file": "lib/shopify_app/managers/script_tags_manager.rb",
+          "line": 106,
+          "message": "Potential Shopify ScriptTag create/update usage requires manual review: creation and updates are blocked from October 1, 2026; storefront injection stops on March 1, 2027.",
+          "remediation": "Replace storefront JavaScript injection with an app embed block in a theme app extension; use a web pixel when the script only collects analytics or conversion data.",
+          "source": "https://shopify.dev/changelog/online-store-script-tags-deprecation",
+          "auto_fix": null,
+          "review_reason": "Manual migration required; source pattern only."
+        }
+      ],
+      "app_executed": false,
+      "app_dependencies_installed": false,
+      "application_tests_run": false,
+      "live_shopify_api_called": false
+    },
+    {
+      "name": "official_react_router",
+      "repository": "https://github.com/Shopify/shopify-app-template-react-router",
+      "commit": "48b841a7746e1b08d1e6d8793b1208f3096e41d0",
+      "tracked_paths_hashed": 60,
+      "tracked_source_unchanged": true,
+      "scan_exit": 0,
+      "preview_exit": 0,
+      "coverage": {
+        "files_seen": 60,
+        "files_scanned": 19,
+        "files_unsupported": 41,
+        "symlinks_skipped": 0,
+        "non_utf8_skipped": 0,
+        "embedded_documents_scanned": 2,
+        "embedded_documents_skipped": 0,
+        "unparseable_graphql_files": 0
+      },
+      "findings": [],
+      "app_executed": false,
+      "app_dependencies_installed": false,
+      "application_tests_run": false,
+      "live_shopify_api_called": false
+    },
+    {
+      "name": "print_integrator",
+      "repository": "https://github.com/aashishvajatechultra/shopify-print-integrator",
+      "commit": "5fe4f47497401b4c438ed4ac1f4317538b681cde",
+      "tracked_paths_hashed": 70,
+      "tracked_source_unchanged": true,
+      "scan_exit": 1,
+      "preview_exit": 1,
+      "coverage": {
+        "files_seen": 70,
+        "files_scanned": 43,
+        "files_unsupported": 27,
+        "symlinks_skipped": 0,
+        "non_utf8_skipped": 0,
+        "embedded_documents_scanned": 5,
+        "embedded_documents_skipped": 0,
+        "unparseable_graphql_files": 0
+      },
+      "findings": [
+        {
+          "rule_id": "SHOPIFY-ADMIN-SCRIPTTAG-2027-03",
+          "severity": "high",
+          "file": "app/lib/shopifyProductFetch.server.js",
+          "line": 202,
+          "message": "Potential Shopify ScriptTag create/update usage requires manual review: creation and updates are blocked from October 1, 2026; storefront injection stops on March 1, 2027.",
+          "remediation": "Replace storefront JavaScript injection with an app embed block in a theme app extension; use a web pixel when the script only collects analytics or conversion data.",
+          "source": "https://shopify.dev/changelog/online-store-script-tags-deprecation",
+          "auto_fix": null,
+          "review_reason": "Manual migration required; source pattern only."
+        }
+      ],
+      "app_executed": false,
+      "app_dependencies_installed": false,
+      "application_tests_run": false,
+      "live_shopify_api_called": false
+    },
+    {
+      "repository": "https://github.com/Weaverse/pilot",
+      "commit": "ea6d45b362eccb844fec22a25b025ea13087e0b3",
+      "tracked_paths_hashed": 563,
+      "scan_exit": 0,
+      "preview_exit": 0,
+      "coverage": {
+        "files_seen": 562,
+        "files_scanned": 355,
+        "files_unsupported": 207,
+        "symlinks_skipped": 1,
+        "non_utf8_skipped": 0,
+        "embedded_documents_scanned": 30,
+        "embedded_documents_skipped": 14,
+        "unparseable_graphql_files": 0
+      },
+      "findings": [],
+      "app_executed": false,
+      "app_dependencies_installed": false,
+      "application_tests_run": false,
+      "live_shopify_api_called": false,
+      "independent_literal_search_all_utf8_tracked_files": [
+        {
+          "file": ".guides/cookbooks/performance-best-practices.md",
+          "line": 139,
+          "tokens": [
+            "ScriptTag"
+          ]
+        }
+      ],
+      "recognized_app_graphql_documents": [
+        {
+          "file": "app/.server/root.ts",
+          "first_line": 288,
+          "dynamic": false,
+          "parsable_static_document": true,
+          "legacy_tokens_in_literal": []
+        },
+        {
+          "file": "app/.server/root.ts",
+          "first_line": 371,
+          "dynamic": false,
+          "parsable_static_document": true,
+          "legacy_tokens_in_literal": []
+        },
+        {
+          "file": "app/graphql/fragments.ts",
+          "first_line": 1,
+          "dynamic": false,
+          "parsable_static_document": true,
+          "legacy_tokens_in_literal": []
+        },
+        {
+          "file": "app/graphql/fragments.ts",
+          "first_line": 60,
+          "dynamic": true,
+          "parsable_static_document": false,
+          "legacy_tokens_in_literal": []
+        },
+        {
+          "file": "app/graphql/fragments.ts",
+          "first_line": 82,
+          "dynamic": true,
+          "parsable_static_document": false,
+          "legacy_tokens_in_literal": []
+        },
+        {
+          "file": "app/graphql/fragments.ts",
+          "first_line": 135,
+          "dynamic": false,
+          "parsable_static_document": true,
+          "legacy_tokens_in_literal": []
+        },
+        {
+          "file": "app/graphql/fragments.ts",
+          "first_line": 178,
+          "dynamic": false,
+          "parsable_static_document": true,
+          "legacy_tokens_in_literal": []
+        },
+        {
+          "file": "app/graphql/queries.ts",
+          "first_line": 7,
+          "dynamic": true,
+          "parsable_static_document": false,
+          "legacy_tokens_in_literal": []
+        },
+        {
+          "file": "app/graphql/queries.ts",
+          "first_line": 110,
+          "dynamic": true,
+          "parsable_static_document": false,
+          "legacy_tokens_in_literal": []
+        },
+        {
+          "file": "app/routes/account/address/address-mutation-queries.ts",
+          "first_line": 2,
+          "dynamic": false,
+          "parsable_static_document": true,
+          "legacy_tokens_in_literal": []
+        },
+        {
+          "file": "app/routes/account/address/address-mutation-queries.ts",
+          "first_line": 24,
+          "dynamic": false,
+          "parsable_static_document": true,
+          "legacy_tokens_in_literal": []
+        },
+        {
+          "file": "app/routes/account/address/address-mutation-queries.ts",
+          "first_line": 41,
+          "dynamic": false,
+          "parsable_static_document": true,
+          "legacy_tokens_in_literal": []
+        },
+        {
+          "file": "app/routes/account/layout.tsx",
+          "first_line": 103,
+          "dynamic": false,
+          "parsable_static_document": true,
+          "legacy_tokens_in_literal": []
+        },
+        {
+          "file": "app/routes/account/orders/list.tsx",
+          "first_line": 19,
+          "dynamic": false,
+          "parsable_static_document": true,
+          "legacy_tokens_in_literal": []
+        },
+        {
+          "file": "app/routes/account/orders/list.tsx",
+          "first_line": 39,
+          "dynamic": true,
+          "parsable_static_document": false,
+          "legacy_tokens_in_literal": []
+        },
+        {
+          "file": "app/routes/account/orders/list.tsx",
+          "first_line": 64,
+          "dynamic": true,
+          "parsable_static_document": false,
+          "legacy_tokens_in_literal": []
+        },
+        {
+          "file": "app/routes/account/orders/order-query.ts",
+          "first_line": 2,
+          "dynamic": false,
+          "parsable_static_document": true,
+          "legacy_tokens_in_literal": []
+        },
+        {
+          "file": "app/routes/account/profile.tsx",
+          "first_line": 17,
+          "dynamic": false,
+          "parsable_static_document": true,
+          "legacy_tokens_in_literal": []
+        },
+        {
+          "file": "app/routes/api/collection-product-count.ts",
+          "first_line": 19,
+          "dynamic": false,
+          "parsable_static_document": true,
+          "legacy_tokens_in_literal": []
+        },
+        {
+          "file": "app/routes/api/customer.ts",
+          "first_line": 5,
+          "dynamic": false,
+          "parsable_static_document": true,
+          "legacy_tokens_in_literal": []
+        },
+        {
+          "file": "app/routes/api/predictive-search.ts",
+          "first_line": 255,
+          "dynamic": false,
+          "parsable_static_document": true,
+          "legacy_tokens_in_literal": []
+        },
+        {
+          "file": "app/routes/api/products.ts",
+          "first_line": 68,
+          "dynamic": true,
+          "parsable_static_document": false,
+          "legacy_tokens_in_literal": []
+        },
+        {
+          "file": "app/routes/blogs/article-redirect.tsx",
+          "first_line": 4,
+          "dynamic": false,
+          "parsable_static_document": true,
+          "legacy_tokens_in_literal": []
+        },
+        {
+          "file": "app/routes/blogs/article.tsx",
+          "first_line": 91,
+          "dynamic": false,
+          "parsable_static_document": true,
+          "legacy_tokens_in_literal": []
+        },
+        {
+          "file": "app/routes/blogs/blog.tsx",
+          "first_line": 68,
+          "dynamic": false,
+          "parsable_static_document": true,
+          "legacy_tokens_in_literal": []
+        },
+        {
+          "file": "app/routes/collections/collection-query.ts",
+          "first_line": 3,
+          "dynamic": true,
+          "parsable_static_document": false,
+          "legacy_tokens_in_literal": []
+        },
+        {
+          "file": "app/routes/collections/list.tsx",
+          "first_line": 50,
+          "dynamic": false,
+          "parsable_static_document": true,
+          "legacy_tokens_in_literal": []
+        },
+        {
+          "file": "app/routes/home.tsx",
+          "first_line": 63,
+          "dynamic": false,
+          "parsable_static_document": true,
+          "legacy_tokens_in_literal": []
+        },
+        {
+          "file": "app/routes/others/order-redirect.tsx",
+          "first_line": 45,
+          "dynamic": false,
+          "parsable_static_document": true,
+          "legacy_tokens_in_literal": []
+        },
+        {
+          "file": "app/routes/pages/regular-page.tsx",
+          "first_line": 53,
+          "dynamic": false,
+          "parsable_static_document": true,
+          "legacy_tokens_in_literal": []
+        },
+        {
+          "file": "app/routes/policies/list.tsx",
+          "first_line": 81,
+          "dynamic": false,
+          "parsable_static_document": true,
+          "legacy_tokens_in_literal": []
+        },
+        {
+          "file": "app/routes/policies/policy.tsx",
+          "first_line": 68,
+          "dynamic": false,
+          "parsable_static_document": true,
+          "legacy_tokens_in_literal": []
+        },
+        {
+          "file": "app/routes/products/list.tsx",
+          "first_line": 68,
+          "dynamic": true,
+          "parsable_static_document": false,
+          "legacy_tokens_in_literal": []
+        },
+        {
+          "file": "app/routes/products/recommended-product.ts",
+          "first_line": 38,
+          "dynamic": true,
+          "parsable_static_document": false,
+          "legacy_tokens_in_literal": []
+        },
+        {
+          "file": "app/routes/pwa/manifest.webmanifest.ts",
+          "first_line": 76,
+          "dynamic": false,
+          "parsable_static_document": true,
+          "legacy_tokens_in_literal": []
+        },
+        {
+          "file": "app/routes/search/index.tsx",
+          "first_line": 210,
+          "dynamic": true,
+          "parsable_static_document": false,
+          "legacy_tokens_in_literal": []
+        },
+        {
+          "file": "app/routes/seo/robots.ts",
+          "first_line": 108,
+          "dynamic": false,
+          "parsable_static_document": true,
+          "legacy_tokens_in_literal": []
+        },
+        {
+          "file": "app/routes/seo/sitemap-page.ts",
+          "first_line": 9,
+          "dynamic": false,
+          "parsable_static_document": true,
+          "legacy_tokens_in_literal": []
+        },
+        {
+          "file": "app/routes/seo/sitemap-page.ts",
+          "first_line": 23,
+          "dynamic": false,
+          "parsable_static_document": true,
+          "legacy_tokens_in_literal": []
+        },
+        {
+          "file": "app/sections/featured-collections/index.tsx",
+          "first_line": 24,
+          "dynamic": false,
+          "parsable_static_document": true,
+          "legacy_tokens_in_literal": []
+        },
+        {
+          "file": "app/sections/featured-products/index.tsx",
+          "first_line": 42,
+          "dynamic": true,
+          "parsable_static_document": false,
+          "legacy_tokens_in_literal": []
+        },
+        {
+          "file": "app/sections/featured-products/index.tsx",
+          "first_line": 56,
+          "dynamic": true,
+          "parsable_static_document": false,
+          "legacy_tokens_in_literal": []
+        },
+        {
+          "file": "app/sections/our-team/index.tsx",
+          "first_line": 38,
+          "dynamic": false,
+          "parsable_static_document": true,
+          "legacy_tokens_in_literal": []
+        },
+        {
+          "file": "app/utils/featured-products.ts",
+          "first_line": 30,
+          "dynamic": true,
+          "parsable_static_document": false,
+          "legacy_tokens_in_literal": []
+        }
+      ],
+      "name": "weaverse_hydrogen",
+      "tracked_source_unchanged": true
+    }
+  ],
+  "independent_shopify_developer_validation_completed": false,
+  "commercial_usefulness_validated": false,
+  "actual_customer_payment_documented": false,
+  "limits": [
+    "All cases are pinned public source scans and previews; no project application or application dependencies were executed.",
+    "Source findings do not prove executed API calls or store failures.",
+    "Skipped documents and unsupported forms remain outside coverage.",
+    "No precision, recall, runtime safety or market-wide compatibility claim follows from these four cases."
+  ]
+}

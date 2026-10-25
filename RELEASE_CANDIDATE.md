@@ -1,12 +1,13 @@
 # BreakGuard V0.1 release checklist
 
-Candidate: **0.1.0rc2**, integrated into `breakguard/product-v0.1` via PR #6 with
-the Founder's explicit approval. Merge commit:
-`f0976e2125dfd12c6aae9c680e2696ca17c328bf`.
+Candidate: **0.1.0rc2**, integrated into `breakguard/product-v0.1` via PR #6 and
+the response-name correction in PR #7, with the Founder's explicit approval.
+Current verified runtime source:
+`461558f3d7bc8db06fe89a6137b278163a1ec7c5`.
 This remains a controlled testing candidate. Unattended merge stays disabled.
 See `docs/PILOT_READINESS.md` for distinct release/market gates.
 
-The response-name follow-up for some `priceRule` edits is tracked in PR #7:
+The response-name correction for some `priceRule` edits was integrated in PR #7:
 https://github.com/viceprimarleova-sketch/breakguard-test/pull/7
 The dated `docs/GRAPHQL_RESPONSE_REVIEW_2026-10-25.md` records evidence captured
 before publication; use the PR for current hosted checks and integration state.
@@ -30,10 +31,13 @@ The earlier delivery kit at product commit
 
 ## Verified technical and integration gates
 
-- [x] 77 tests against a separately installed wheel with isolated imports
-- [x] reviewed head `b111a9ed2d6f92c88d35c2c40f61ae632368443f` passed hosted
+- [x] 85 tests against a separately installed wheel with isolated imports,
+  including eight response-name regressions
+- [x] integrated source `461558f3d7bc8db06fe89a6137b278163a1ec7c5` passed hosted
   Python 3.10/3.11/3.12 and Windows/macOS/Linux installed workflow checks
-- [x] Founder approved PR #6 integration for controlled testing
+- [x] Founder approved PR #6 and PR #7 integration for controlled testing
+- [x] exact-source technical checks and source pins recorded in
+  `docs/PUBLIC_SOURCE_VALIDATION_2026-10-25.md`
 
 Current product-branch checks are recorded in GitHub Actions. Historical audit
 files preserve their preparation-time status rather than claiming later runs.

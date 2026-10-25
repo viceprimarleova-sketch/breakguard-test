@@ -1,6 +1,7 @@
 # BreakGuard V0.1 — proposed pilot offer
 
-**Working draft for Oleg's approval. Published as review documentation; no client offer has been sent or accepted.**
+**Working draft for Oleg's approval. One approved feedback email mentioned the
+tentative EUR 49 price; this complete offer has not been sent or accepted.**
 
 ## Proposed customer-facing wording
 
@@ -24,6 +25,11 @@ This is not a general REST-to-GraphQL migration, API compatibility certification
 ongoing monitoring subscription or guarantee that a Shopify warning disappears.
 
 ## Price proposal and rationale
+
+Before presenting this complete offer, follow `PILOT_ELIGIBILITY.md`. A migration
+issue mentioning one of the field names does not establish that the developer's
+actual project contains a useful supported case. A no-findings control may help
+technical feedback, but is not evidence of a qualified buyer.
 
 **EUR 49.00, one-time pilot fee — unvalidated pricing hypothesis.**
 
