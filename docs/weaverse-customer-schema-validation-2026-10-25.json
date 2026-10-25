@@ -1,0 +1,130 @@
+{
+  "date": "2026-10-25",
+  "repository": "https://github.com/Weaverse/pilot",
+  "commit": "ea6d45b362eccb844fec22a25b025ea13087e0b3",
+  "scope": "Separate offline QA of actual Customer Account query documents, not a product feature or an application runtime test.",
+  "selection_basis": "codegen.ts assigns app/routes/account/**/*.{ts,tsx,js,jsx} to the Customer Account schema.",
+  "schema_files": {
+    "before": {
+      "api": "Customer Account",
+      "version": "2026-04",
+      "sha256": "01bd3c7d3d65ae8105d6056660392d43b624845847d0190c2220148cc34fd553"
+    },
+    "after": {
+      "api": "Customer Account",
+      "version": "2026-10",
+      "sha256": "a9c03194694fe06aec414901fc350ed9f048a5a72b0cf6a562e3b520d75a29b9"
+    }
+  },
+  "schema_source": {
+    "repository": "https://github.com/Shopify/hydrogen",
+    "path": "packages/hydrogen/src/graphql/generated/customer-account.schema.json",
+    "before_commit": "a1839530e9a602c86dbda85f6802e53ca80fabc7",
+    "after_commit": "5af8a7d342a974e76234cccf2b38276a2faca9c6"
+  },
+  "composition": "Only same-file named template references are replaced as text; no JavaScript, imports, functions or app dependencies executed.",
+  "complete_documents_checked": 7,
+  "fragment_only_documents": 2,
+  "skipped": [],
+  "results": [
+    {
+      "file": "app/routes/account/address/address-mutation-queries.ts",
+      "line": 2,
+      "constant": "UPDATE_ADDRESS_MUTATION",
+      "operations": [
+        "customerAddressUpdate"
+      ],
+      "same_file_interpolation_composed_for_this_QA": false,
+      "schema_errors": {
+        "before": [],
+        "after": []
+      }
+    },
+    {
+      "file": "app/routes/account/address/address-mutation-queries.ts",
+      "line": 24,
+      "constant": "DELETE_ADDRESS_MUTATION",
+      "operations": [
+        "customerAddressDelete"
+      ],
+      "same_file_interpolation_composed_for_this_QA": false,
+      "schema_errors": {
+        "before": [],
+        "after": []
+      }
+    },
+    {
+      "file": "app/routes/account/address/address-mutation-queries.ts",
+      "line": 41,
+      "constant": "CREATE_ADDRESS_MUTATION",
+      "operations": [
+        "customerAddressCreate"
+      ],
+      "same_file_interpolation_composed_for_this_QA": false,
+      "schema_errors": {
+        "before": [],
+        "after": []
+      }
+    },
+    {
+      "file": "app/routes/account/layout.tsx",
+      "line": 103,
+      "constant": "CUSTOMER_DETAILS_QUERY",
+      "operations": [
+        "CustomerDetails"
+      ],
+      "same_file_interpolation_composed_for_this_QA": false,
+      "schema_errors": {
+        "before": [],
+        "after": []
+      }
+    },
+    {
+      "file": "app/routes/account/orders/list.tsx",
+      "line": 64,
+      "constant": "CUSTOMER_ORDERS_QUERY",
+      "operations": [
+        "CustomerOrders"
+      ],
+      "same_file_interpolation_composed_for_this_QA": true,
+      "schema_errors": {
+        "before": [],
+        "after": []
+      }
+    },
+    {
+      "file": "app/routes/account/orders/order-query.ts",
+      "line": 2,
+      "constant": "CUSTOMER_ORDER_QUERY",
+      "operations": [
+        "Order"
+      ],
+      "same_file_interpolation_composed_for_this_QA": false,
+      "schema_errors": {
+        "before": [],
+        "after": []
+      }
+    },
+    {
+      "file": "app/routes/account/profile.tsx",
+      "line": 17,
+      "constant": "CUSTOMER_UPDATE_MUTATION",
+      "operations": [
+        "customerUpdate"
+      ],
+      "same_file_interpolation_composed_for_this_QA": false,
+      "schema_errors": {
+        "before": [],
+        "after": []
+      }
+    }
+  ],
+  "app_executed": false,
+  "live_api_called": false,
+  "graphql_codegen_run": false,
+  "limitations": [
+    "Offline schema validation does not prove runtime response handling, permissions, variables, cart/analytics migration or merchant behavior.",
+    "BreakGuard CLI still skips interpolated documents; this QA composition is not product coverage.",
+    "Configured runtime API version was not independently established; validation here is explicitly against the two named schema snapshots."
+  ]
+}

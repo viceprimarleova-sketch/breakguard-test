@@ -14,29 +14,41 @@ kit, create a virtual environment and install without downloading packages:
 
 ```powershell
 py -3 -m venv .venv
-.\.venv\Scripts\python.exe -m pip install --no-index --find-links wheels breakguard==0.1.0rc2
+.\.venv\Scripts\python.exe -m pip install --force-reinstall --no-index --find-links wheels breakguard==0.1.0rc2
 .\.venv\Scripts\breakguard.exe --version
 ```
 
 ```sh
 python3 -m venv .venv
-.venv/bin/python -m pip install --no-index --find-links wheels breakguard==0.1.0rc2
+.venv/bin/python -m pip install --force-reinstall --no-index --find-links wheels breakguard==0.1.0rc2
 .venv/bin/breakguard --version
 ```
 
-Python 3.10 or newer is required. The reviewed code passed 77 installed-package
-tests and hosted checks on Python 3.10–3.12, plus the installed workflow on
-Ubuntu, macOS and Windows. PR #6 was integrated with the Founder's approval.
+Python 3.10 or newer is required. Runtime source at commit
+`461558f3d7bc8db06fe89a6137b278163a1ec7c5` passed 85 installed-package tests
+and hosted checks on Python 3.10–3.12, plus the installed workflow on Ubuntu,
+macOS and Windows. PR #7 integrated the response-name guard with the Founder's
+approval. These results apply to that exact source, not a final commercial release.
+
+Use `--force-reinstall` when replacing an earlier rc2 build: its version number
+alone does not distinguish the earlier wheel from the corrected one. Check the
+source commit and wheel hash in the delivery kit.
 
 The product branch now provides rc2 directly (Git is required for this route):
 
 ```sh
-python -m pip install "git+https://github.com/viceprimarleova-sketch/breakguard-test.git@breakguard/product-v0.1"
+python -m pip install --force-reinstall "git+https://github.com/viceprimarleova-sketch/breakguard-test.git@breakguard/product-v0.1"
 breakguard --version
 ```
 
 For reproducible evaluations, pin the tested commit recorded in the delivery
-kit. For a local source checkout, use `python -m pip install '.[test]'` instead.
+kit. For example, the integrated runtime verified above can be installed with:
+
+```sh
+python -m pip install --force-reinstall "git+https://github.com/viceprimarleova-sketch/breakguard-test.git@461558f3d7bc8db06fe89a6137b278163a1ec7c5"
+```
+
+For a local source checkout, use `python -m pip install '.[test]'` instead.
 
 ## Detect → preview → edit → verify → restore
 
@@ -104,7 +116,7 @@ it never automatically merges and never resets an existing local review branch.
 
 ## Pilot preparation
 
-See `docs/PILOT_READINESS.md`, `TESTER_GUIDE.md`, `docs/PILOT_OFFER_DRAFT.md`,
+See `docs/PILOT_READINESS.md`, `docs/PILOT_ELIGIBILITY.md`, `TESTER_GUIDE.md`, `docs/PILOT_OFFER_DRAFT.md`,
 `docs/PILOT_TERMS_DRAFT.md` and `docs/PAYMENT_TESTING.md`.
 
 The operator-only payment module supports an offline simulation and a PayPal
