@@ -6,6 +6,13 @@ the Founder's explicit approval. Merge commit:
 This remains a controlled testing candidate. Unattended merge stays disabled.
 See `docs/PILOT_READINESS.md` for distinct release/market gates.
 
+The response-name follow-up for some `priceRule` edits is tracked in PR #7:
+https://github.com/viceprimarleova-sketch/breakguard-test/pull/7
+The dated `docs/GRAPHQL_RESPONSE_REVIEW_2026-10-25.md` records evidence captured
+before publication; use the PR for current hosted checks and integration state.
+The earlier delivery kit at product commit
+`2a56d555931b436551e84b3b8b32803c9c064094` did not contain this correction.
+
 ## Implemented
 
 - [x] installable CLI with packaged rules, version and help
@@ -45,7 +52,8 @@ files preserve their preparation-time status rather than claiming later runs.
 
 The rc1 correction commit `788c3b6e3f805a0d39e0593d08bef9fcf7ca6eba` passed
 39 local tests and hosted Python 3.10–3.12 / Ubuntu / macOS / Windows checks.
-Those hosted results do not validate rc2. PR #6 remains Draft and unmerged:
+Those historical hosted results alone did not validate rc2. At that point,
+PR #6 was Draft and unmerged; it was subsequently approved and integrated:
 https://github.com/viceprimarleova-sketch/breakguard-test/pull/6
 
 Oleg supplied a Windows screenshot on October 23 showing two changed files and

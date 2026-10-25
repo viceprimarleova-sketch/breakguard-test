@@ -1,0 +1,363 @@
+{
+  "scope": "Offline full-schema validation of synthetic cases, not an application or store test.",
+  "package_version": "0.1.0rc2",
+  "graphql_edits_sha256": "278668a4fd82e8b941fe346b9488da360dd8a25f4eb32fb94e34b1c1ec041836",
+  "schema_files": {
+    "admin_before": {
+      "bytes": 6614656,
+      "sha256": "7c6a0924ec23ff58fa634f036fccf8d3fb62e8aeeda761532f6d7c85a3ea17dc"
+    },
+    "admin_after": {
+      "bytes": 6887123,
+      "sha256": "d637bf4b0d348820fd93ca180d2c477afa5545318b9a4d241466e2b895ee366d"
+    },
+    "customer_before": {
+      "bytes": 1635195,
+      "sha256": "01bd3c7d3d65ae8105d6056660392d43b624845847d0190c2220148cc34fd553"
+    },
+    "customer_after": {
+      "bytes": 1686578,
+      "sha256": "a9c03194694fe06aec414901fc350ed9f048a5a72b0cf6a562e3b520d75a29b9"
+    }
+  },
+  "cases_passed": 10,
+  "automatic_cases": 3,
+  "manual_cases": 7,
+  "results": [
+    {
+      "case": "customer_normal",
+      "surface": "customer",
+      "automatic_edit": true,
+      "before_schema_errors": [],
+      "target_before_schema_errors": [
+        "Cannot query field 'lastIncompleteCheckout' on type 'Customer'."
+      ],
+      "target_after_schema_errors": [],
+      "changed_files": [
+        "case.graphql"
+      ],
+      "remaining_findings": [],
+      "exact_preservation_or_restore": true,
+      "synthetic_source": "query Buyer { customer { id lastIncompleteCheckout { id appliedGiftCards { id } } } }",
+      "validation_context_from_another_file": ""
+    },
+    {
+      "case": "customer_only",
+      "surface": "customer",
+      "automatic_edit": false,
+      "before_schema_errors": [],
+      "target_before_schema_errors": [
+        "Cannot query field 'lastIncompleteCheckout' on type 'Customer'."
+      ],
+      "target_after_schema_errors": [
+        "Cannot query field 'lastIncompleteCheckout' on type 'Customer'."
+      ],
+      "changed_files": [],
+      "remaining_findings": [
+        {
+          "rule_id": "SHOPIFY-CA-2026-10-LAST-INCOMPLETE-CHECKOUT",
+          "severity": "high",
+          "file": "case.graphql",
+          "line": 1,
+          "message": "Customer.lastIncompleteCheckout is removed in Customer Account API 2026-10.",
+          "remediation": "Remove the field. There is no direct replacement in the Customer Account API; use Storefront API cart flows for active cart/checkout state or Customer.orders for purchase history.",
+          "source": "https://shopify.dev/changelog/posts/customer-account-api-last-incomplete-checkout-and-checkout-types-removed",
+          "auto_fix": null,
+          "review_reason": "Ambiguous or unsupported GraphQL edit; review query and response consumers."
+        }
+      ],
+      "exact_preservation_or_restore": true,
+      "synthetic_source": "query Buyer { customer { lastIncompleteCheckout { id } } }",
+      "validation_context_from_another_file": ""
+    },
+    {
+      "case": "customer_alias",
+      "surface": "customer",
+      "automatic_edit": false,
+      "before_schema_errors": [],
+      "target_before_schema_errors": [
+        "Cannot query field 'lastIncompleteCheckout' on type 'Customer'."
+      ],
+      "target_after_schema_errors": [
+        "Cannot query field 'lastIncompleteCheckout' on type 'Customer'."
+      ],
+      "changed_files": [],
+      "remaining_findings": [
+        {
+          "rule_id": "SHOPIFY-CA-2026-10-LAST-INCOMPLETE-CHECKOUT",
+          "severity": "high",
+          "file": "case.graphql",
+          "line": 1,
+          "message": "Customer.lastIncompleteCheckout is removed in Customer Account API 2026-10.",
+          "remediation": "Remove the field. There is no direct replacement in the Customer Account API; use Storefront API cart flows for active cart/checkout state or Customer.orders for purchase history.",
+          "source": "https://shopify.dev/changelog/posts/customer-account-api-last-incomplete-checkout-and-checkout-types-removed",
+          "auto_fix": null,
+          "review_reason": "Ambiguous or unsupported GraphQL edit; review query and response consumers."
+        }
+      ],
+      "exact_preservation_or_restore": true,
+      "synthetic_source": "query Buyer { customer { id legacy: lastIncompleteCheckout { id } } }",
+      "validation_context_from_another_file": ""
+    },
+    {
+      "case": "price_normal",
+      "surface": "admin",
+      "automatic_edit": true,
+      "before_schema_errors": [],
+      "target_before_schema_errors": [
+        "Cannot query field 'priceRule' on type 'DraftOrderDiscountNotAppliedWarning'."
+      ],
+      "target_after_schema_errors": [],
+      "changed_files": [
+        "case.graphql"
+      ],
+      "remaining_findings": [],
+      "exact_preservation_or_restore": true,
+      "synthetic_source": "mutation ReviewWarnings($input: DraftOrderInput!) {\n  draftOrderCalculate(input: $input) {\n    calculatedDraftOrder {\n      warnings {\n        \n        ... on DraftOrderDiscountNotAppliedWarning {\n          priceRule { title discountCodes(first: 1) { nodes { code } } }\n        }\n      }\n    }\n  }\n}\n\n",
+      "validation_context_from_another_file": ""
+    },
+    {
+      "case": "price_title_alias",
+      "surface": "admin",
+      "automatic_edit": false,
+      "before_schema_errors": [],
+      "target_before_schema_errors": [
+        "Cannot query field 'priceRule' on type 'DraftOrderDiscountNotAppliedWarning'."
+      ],
+      "target_after_schema_errors": [
+        "Cannot query field 'priceRule' on type 'DraftOrderDiscountNotAppliedWarning'."
+      ],
+      "changed_files": [],
+      "remaining_findings": [
+        {
+          "rule_id": "SHOPIFY-ADMIN-2026-10-PRICERULE",
+          "severity": "high",
+          "file": "case.graphql",
+          "line": 7,
+          "message": "DraftOrderDiscountNotAppliedWarning.priceRule is removed in GraphQL Admin API 2026-10.",
+          "remediation": "Use discountTitle and discountCode on DraftOrderDiscountNotAppliedWarning.",
+          "source": "https://shopify.dev/changelog/remove-pricerule-from-draft-order-discount-warning",
+          "auto_fix": null,
+          "review_reason": "Ambiguous or unsupported GraphQL edit; review query and response consumers."
+        }
+      ],
+      "exact_preservation_or_restore": true,
+      "synthetic_source": "mutation ReviewWarnings($input: DraftOrderInput!) {\n  draftOrderCalculate(input: $input) {\n    calculatedDraftOrder {\n      warnings {\n        \n        ... on DraftOrderDiscountNotAppliedWarning {\n          discountTitle: message priceRule { title discountCodes(first: 1) { nodes { code } } }\n        }\n      }\n    }\n  }\n}\n\n",
+      "validation_context_from_another_file": ""
+    },
+    {
+      "case": "price_code_alias",
+      "surface": "admin",
+      "automatic_edit": false,
+      "before_schema_errors": [],
+      "target_before_schema_errors": [
+        "Cannot query field 'priceRule' on type 'DraftOrderDiscountNotAppliedWarning'."
+      ],
+      "target_after_schema_errors": [
+        "Cannot query field 'priceRule' on type 'DraftOrderDiscountNotAppliedWarning'."
+      ],
+      "changed_files": [],
+      "remaining_findings": [
+        {
+          "rule_id": "SHOPIFY-ADMIN-2026-10-PRICERULE",
+          "severity": "high",
+          "file": "case.graphql",
+          "line": 7,
+          "message": "DraftOrderDiscountNotAppliedWarning.priceRule is removed in GraphQL Admin API 2026-10.",
+          "remediation": "Use discountTitle and discountCode on DraftOrderDiscountNotAppliedWarning.",
+          "source": "https://shopify.dev/changelog/remove-pricerule-from-draft-order-discount-warning",
+          "auto_fix": null,
+          "review_reason": "Ambiguous or unsupported GraphQL edit; review query and response consumers."
+        }
+      ],
+      "exact_preservation_or_restore": true,
+      "synthetic_source": "mutation ReviewWarnings($input: DraftOrderInput!) {\n  draftOrderCalculate(input: $input) {\n    calculatedDraftOrder {\n      warnings {\n        \n        ... on DraftOrderDiscountNotAppliedWarning {\n          discountCode: message priceRule { title discountCodes(first: 1) { nodes { code } } }\n        }\n      }\n    }\n  }\n}\n\n",
+      "validation_context_from_another_file": ""
+    },
+    {
+      "case": "price_outer_alias",
+      "surface": "admin",
+      "automatic_edit": false,
+      "before_schema_errors": [],
+      "target_before_schema_errors": [
+        "Cannot query field 'priceRule' on type 'DraftOrderDiscountNotAppliedWarning'."
+      ],
+      "target_after_schema_errors": [
+        "Cannot query field 'priceRule' on type 'DraftOrderDiscountNotAppliedWarning'."
+      ],
+      "changed_files": [],
+      "remaining_findings": [
+        {
+          "rule_id": "SHOPIFY-ADMIN-2026-10-PRICERULE",
+          "severity": "high",
+          "file": "case.graphql",
+          "line": 7,
+          "message": "DraftOrderDiscountNotAppliedWarning.priceRule is removed in GraphQL Admin API 2026-10.",
+          "remediation": "Use discountTitle and discountCode on DraftOrderDiscountNotAppliedWarning.",
+          "source": "https://shopify.dev/changelog/remove-pricerule-from-draft-order-discount-warning",
+          "auto_fix": null,
+          "review_reason": "Ambiguous or unsupported GraphQL edit; review query and response consumers."
+        }
+      ],
+      "exact_preservation_or_restore": true,
+      "synthetic_source": "mutation ReviewWarnings($input: DraftOrderInput!) {\n  draftOrderCalculate(input: $input) {\n    calculatedDraftOrder {\n      warnings {\n        discountTitle: message\n        ... on DraftOrderDiscountNotAppliedWarning {\n          priceRule { title discountCodes(first: 1) { nodes { code } } }\n        }\n      }\n    }\n  }\n}\n\n",
+      "validation_context_from_another_file": ""
+    },
+    {
+      "case": "price_fragment_alias",
+      "surface": "admin",
+      "automatic_edit": false,
+      "before_schema_errors": [],
+      "target_before_schema_errors": [
+        "Cannot query field 'priceRule' on type 'DraftOrderDiscountNotAppliedWarning'."
+      ],
+      "target_after_schema_errors": [
+        "Cannot query field 'priceRule' on type 'DraftOrderDiscountNotAppliedWarning'."
+      ],
+      "changed_files": [],
+      "remaining_findings": [
+        {
+          "rule_id": "SHOPIFY-ADMIN-2026-10-PRICERULE",
+          "severity": "high",
+          "file": "case.graphql",
+          "line": 7,
+          "message": "DraftOrderDiscountNotAppliedWarning.priceRule is removed in GraphQL Admin API 2026-10.",
+          "remediation": "Use discountTitle and discountCode on DraftOrderDiscountNotAppliedWarning.",
+          "source": "https://shopify.dev/changelog/remove-pricerule-from-draft-order-discount-warning",
+          "auto_fix": null,
+          "review_reason": "Ambiguous or unsupported GraphQL edit; review query and response consumers."
+        }
+      ],
+      "exact_preservation_or_restore": true,
+      "synthetic_source": "mutation ReviewWarnings($input: DraftOrderInput!) {\n  draftOrderCalculate(input: $input) {\n    calculatedDraftOrder {\n      warnings {\n        \n        ... on DraftOrderDiscountNotAppliedWarning {\n          ...WarningLabel priceRule { title discountCodes(first: 1) { nodes { code } } }\n        }\n      }\n    }\n  }\n}\nfragment WarningLabel on DraftOrderDiscountNotAppliedWarning { discountTitle: message }\n",
+      "validation_context_from_another_file": ""
+    },
+    {
+      "case": "price_compatible_fragment",
+      "surface": "admin",
+      "automatic_edit": true,
+      "before_schema_errors": [],
+      "target_before_schema_errors": [
+        "Cannot query field 'priceRule' on type 'DraftOrderDiscountNotAppliedWarning'."
+      ],
+      "target_after_schema_errors": [],
+      "changed_files": [
+        "case.graphql"
+      ],
+      "remaining_findings": [],
+      "exact_preservation_or_restore": true,
+      "synthetic_source": "mutation ReviewWarnings($input: DraftOrderInput!) {\n  draftOrderCalculate(input: $input) {\n    calculatedDraftOrder {\n      warnings {\n        \n        ... on DraftOrderDiscountNotAppliedWarning {\n          ...WarningLabel priceRule { title discountCodes(first: 1) { nodes { code } } }\n        }\n      }\n    }\n  }\n}\nfragment WarningLabel on DraftOrderDiscountNotAppliedWarning { label: message }\n",
+      "validation_context_from_another_file": ""
+    },
+    {
+      "case": "price_external_fragment",
+      "surface": "admin",
+      "automatic_edit": false,
+      "before_schema_errors": [],
+      "target_before_schema_errors": [
+        "Cannot query field 'priceRule' on type 'DraftOrderDiscountNotAppliedWarning'."
+      ],
+      "target_after_schema_errors": [
+        "Cannot query field 'priceRule' on type 'DraftOrderDiscountNotAppliedWarning'."
+      ],
+      "changed_files": [],
+      "remaining_findings": [
+        {
+          "rule_id": "SHOPIFY-ADMIN-2026-10-PRICERULE",
+          "severity": "high",
+          "file": "case.graphql",
+          "line": 7,
+          "message": "DraftOrderDiscountNotAppliedWarning.priceRule is removed in GraphQL Admin API 2026-10.",
+          "remediation": "Use discountTitle and discountCode on DraftOrderDiscountNotAppliedWarning.",
+          "source": "https://shopify.dev/changelog/remove-pricerule-from-draft-order-discount-warning",
+          "auto_fix": null,
+          "review_reason": "Ambiguous or unsupported GraphQL edit; review query and response consumers."
+        }
+      ],
+      "exact_preservation_or_restore": true,
+      "synthetic_source": "mutation ReviewWarnings($input: DraftOrderInput!) {\n  draftOrderCalculate(input: $input) {\n    calculatedDraftOrder {\n      warnings {\n        \n        ... on DraftOrderDiscountNotAppliedWarning {\n          ...ExternalFields priceRule { title discountCodes(first: 1) { nodes { code } } }\n        }\n      }\n    }\n  }\n}\n\n",
+      "validation_context_from_another_file": "fragment ExternalFields on DraftOrderDiscountNotAppliedWarning { discountTitle: message }"
+    }
+  ],
+  "not_validated": [
+    "live Shopify behavior",
+    "response consumers",
+    "customer usefulness",
+    "willingness to pay"
+  ],
+  "review_date": "2026-10-25",
+  "state": "unpublished local review; not a new release",
+  "base_commit": "2a56d555931b436551e84b3b8b32803c9c064094",
+  "regression_before": {
+    "failed": 5,
+    "passed": 3
+  },
+  "installed_unit_tests": {
+    "tests": 85,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "installed_files_matched": 12,
+  "review_wheel_sha256": "899bb91dde6559ad98f82c5d4aaf9c7d65ab88a6cccbd0eda0cc8436ae4c1924",
+  "hosted_checks_for_followup": "not run",
+  "sources": {
+    "admin_before": {
+      "api": "Admin GraphQL",
+      "version": "2026-07",
+      "source": "https://shopify.dev/admin-graphql-direct-proxy/2026-07",
+      "method": "POST standard introspection query; no credentials"
+    },
+    "admin_after": {
+      "api": "Admin GraphQL",
+      "version": "2026-10",
+      "source": "https://shopify.dev/admin-graphql-direct-proxy/2026-10",
+      "method": "POST standard introspection query; no credentials"
+    },
+    "customer_before": {
+      "api": "Customer Account",
+      "version": "2026-04",
+      "repository": "Shopify/hydrogen",
+      "commit": "a1839530e9a602c86dbda85f6802e53ca80fabc7",
+      "path": "packages/hydrogen/src/graphql/generated/customer-account.schema.json",
+      "version_evidence": "packages/hydrogen/src/core/constants.ts at same commit"
+    },
+    "customer_after": {
+      "api": "Customer Account",
+      "version": "2026-10",
+      "repository": "Shopify/hydrogen",
+      "commit": "5af8a7d342a974e76234cccf2b38276a2faca9c6",
+      "path": "packages/hydrogen/src/graphql/generated/customer-account.schema.json",
+      "version_evidence": "packages/hydrogen/src/core/constants.ts at same commit"
+    }
+  },
+  "installed_smoke": {
+    "initial_findings": 3,
+    "edited_files": 2,
+    "remaining_manual_findings": 1,
+    "exact_restore": true,
+    "later_edits_protected": true,
+    "payment": "offline simulation only"
+  },
+  "external_messages_sent": false,
+  "web_prototype_changed": false,
+  "actual_paypal_sandbox_tested": false,
+  "installed_cli_alias_case": {
+    "exit_code": 1,
+    "manual_findings": 1,
+    "source_preserved": true,
+    "backup_created": false,
+    "report_auto_fix": null
+  },
+  "baseline_reproduction": {
+    "code": "integrated rc2 before correction",
+    "before_schema_errors": [],
+    "unsafe_proposed_edit_schema_errors": [
+      "Fields 'discountTitle' conflict because 'message' and 'discountTitle' are different fields. Use different aliases on the fields to fetch both if this was intentional.",
+      "Fields 'discountTitle' conflict because 'message' and 'discountTitle' are different fields. Use different aliases on the fields to fetch both if this was intentional."
+    ],
+    "original_query_sha256": "1a8699e2bf485090808cff614aa4ceb267a2b815824a2718eccbc8bfc761f46c",
+    "unsafe_proposed_query_sha256": "d81375f4c21d5d67c9b94de6c643d913334d9c301b3a94e4fd0ae29b89902ed1"
+  },
+  "evidence_capture_phase": "before PR #7 publication; current CI and merge state are recorded in that PR"
+}

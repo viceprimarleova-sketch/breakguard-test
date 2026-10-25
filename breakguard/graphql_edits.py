@@ -123,6 +123,18 @@ def plan_edits(text: str, requested: set[tuple[int, str]], fields=None) -> list[
     fields = query_fields(text) if fields is None else fields
     if fields is None:
         return []
+    try:
+        document = parse(text)
+    except GraphQLError:
+        return []
+    fragment_names = {definition.name.value for definition in document.definitions
+                      if isinstance(definition, FragmentDefinitionNode)}
+    unresolved_fragments = any(
+        isinstance(node, FragmentSpreadNode) and node.name.value not in fragment_names
+        for node in _nodes(document)
+    )
+    reserved_aliases = {field.node.alias.value for field in fields
+                        if field.node.alias and field.node.alias.value != field.node.name.value}
     edits: list[Edit] = []
     for field in fields:
         node = field.node
@@ -151,6 +163,12 @@ def plan_edits(text: str, requested: set[tuple[int, str]], fields=None) -> list[
                 existing = {s.name.value for s in field.parent.selections
                             if isinstance(s, FieldNode) and not s.alias and not s.directives}
                 names = [name for name in ("discountTitle", "discountCode") if name not in existing]
+                # New response names can collide with aliases on sibling/outer
+                # selections or in fragments. Without a schema and all files,
+                # conservatively reserve aliases across the whole document and
+                # leave documents with external fragments to manual review.
+                if unresolved_fragments or any(name in reserved_aliases for name in names):
+                    continue
                 prefix = text[text.rfind("\n", 0, start) + 1:start]
                 newline = "\r\n" if "\r\n" in text else "\n"
                 separator = " " if prefix.strip() else newline + prefix
