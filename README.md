@@ -117,10 +117,12 @@ it never automatically merges and never resets an existing local review branch.
 ## Pilot preparation
 
 See `docs/PILOT_READINESS.md`, `docs/PILOT_ELIGIBILITY.md`, `TESTER_GUIDE.md`, `docs/PILOT_OFFER_DRAFT.md`,
-`docs/PILOT_TERMS_DRAFT.md` and `docs/PAYMENT_TESTING.md`.
+`docs/PILOT_TERMS_DRAFT.md`, `docs/PAID_PILOT_RUNBOOK.md`,
+`docs/PILOT_ORDER_TEMPLATE.md` and `docs/PAYMENT_TESTING.md`.
 
 The operator-only payment module supports an offline simulation and a PayPal
-Sandbox adapter. There is no live mode or automatic fulfillment:
+Sandbox adapter. Its fixed test total is GBP 42.00. There is no live mode or
+automatic fulfillment:
 
 ```sh
 python -m breakguard.pilot_payments --simulate

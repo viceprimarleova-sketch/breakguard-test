@@ -1,4 +1,4 @@
-# Pilot readiness — October 25, 2026
+# Pilot readiness — October 26, 2026
 
 ## Verified candidate
 
@@ -29,7 +29,9 @@ current source evidence and `PILOT_ELIGIBILITY.md` for the proposed selection st
 - Installable wheels, offline installers, synthetic/manual/coverage examples,
   English/Romanian instructions and a 30–60 minute developer test protocol.
 - A technical-only external evaluation kit separated from private seller intake.
-- Proposed EUR 49 one-repository offer, bounded support and draft terms.
+- Current GBP 42 one-repository offer proposal, bounded support and draft terms.
+- A manual individual-invoice delivery runbook and an unfilled order template.
+- The functional free evaluation remains separate from a paid assisted pilot.
 - Offline payment simulation plus a Sandbox-only adapter and actual-test plan.
 
 ## Separate gates
@@ -40,11 +42,22 @@ current source evidence and `PILOT_ELIGIBILITY.md` for the proposed selection st
 | Representative sources | Official Ruby/React Router controls and two public applications scanned read-only; no application execution | Developer checks relevance, response consumers and application tests |
 | Customer usefulness | Not independently validated | Complete `TESTER_GUIDE.md` with a consenting Shopify developer |
 | Buyer fit | Not established from migration-task titles | Confirm an actual useful supported case using `PILOT_ELIGIBILITY.md` |
-| Price | EUR 49 hypothesis | Ask about the exact bounded offer after usefulness and fit are established |
+| Price | GBP 42 current proposal, not commercially validated | Match the invoice currency; do not promise a fixed EUR 49 equivalent |
 | PayPal Sandbox | Fake-transport/offline tests pass; no actual account transaction | Owner configures app/buyer securely, then execute the actual test plan |
 | Commercial terms | Working draft; seller/account/tax facts unresolved | Complete seller details and obtain approval of total, support and final terms |
-| Live payments | Disabled; no live implementation | Separately approved checkout/reconciliation/fulfillment after prior gates |
+| Live API payments | No live adapter or automatic fulfillment | Keep separate from owner-created provider invoices; approve any production integration |
+| First manual paid pilot | Proposed individual invoice after fit, seller review and accepted terms | Follow `PAID_PILOT_RUNBOOK.md`; no reusable invoice button or unapproved charge |
 | Revenue | No documented payment | Record only a verified real customer payment |
+
+## GBP quote review branch
+
+The separate `work/pilot-gbp42-2026-10-26` candidate aligns the fixed Sandbox test
+quote with the GBP 42 proposal and adds regressions for old EUR 49 orders and
+captures. It is not the already integrated source or the already sent free kit.
+Its local test/build evidence is recorded in `GBP42_REVIEW_2026-10-26.md`; hosted
+checks and final integration still require the authorized review workflow.
+Older dated audits and the contact history below retain the earlier EUR 49
+proposal as history, not a current quote or an exchange-rate guarantee.
 
 ## Contact evidence
 

@@ -1,8 +1,10 @@
 # Pilot payments — test mode only
 
-There is no live mode, real-money receipt, automatic license activation,
-subscription or public checkout. This module is an operator tool, separate from
-the local source scanner. The proposed fee is test data until approved.
+This module has no live mode, real-money receipt, automatic license activation,
+subscription or public checkout. It is an operator tool, separate from the local
+source scanner and from any invoice the account owner creates in PayPal itself.
+Its fixed test quote is GBP 42.00; it does not perform a EUR/GBP conversion.
+The proposed commercial offer still requires separate approval.
 
 ## Offline demonstration — ready without an account
 
@@ -48,7 +50,7 @@ even after a successful Sandbox capture.
 
 ## Remaining acceptance test with owner access
 
-1. Create a Sandbox order for the EUR 49.00 test total.
+1. Create a Sandbox order for the GBP 42.00 test total.
 2. Cancel one test and confirm no completed receipt is produced.
 3. Approve another using a Sandbox buyer and verify a completed capture by API.
 4. Retry using the saved request identifiers and confirm no duplicate capture.
@@ -56,16 +58,29 @@ even after a successful Sandbox capture.
    outcome using Sandbox-supported facilities; record actual results separately
    from the fake-transport unit tests.
 
-Live release would additionally need the approved seller/offer/tax and account
+The three GBP quote regression tests independently check the exact test total,
+refusal of the former EUR 49 order before capture, and rejection of a capture
+using that old total. Orders created for the old quote do not match the current
+one. Create a new order and new persistent request IDs for a new quote; reusing
+a request ID is only for retrying the same unchanged operation.
+
+A provider-hosted invoice for one agreed customer is a separate, proposed manual
+route. Follow `PAID_PILOT_RUNBOOK.md`; this module does not create that invoice,
+verify a live payment, reconcile its refund or deliver a customer package. Do not
+use a single invoice as a reusable website checkout.
+
+An automated live API release would additionally need the approved seller/offer/tax and account
 setup, a real buyer-facing application, authenticated server-side order records,
 provider callbacks/reconciliation, fulfillment/refund/dispute handling and the
 Founder's explicit approval. Those production features are intentionally not
 activated or claimed by this Sandbox preparation.
 
-## Primary sources checked October 25, 2026
+## Primary sources checked October 25–26, 2026
 
 - https://developer.paypal.com/sandbox-testing/overview
 - https://developer.paypal.com/api/orders/v2/orders-create
 - https://developer.paypal.com/api/orders/v2/orders-get
 - https://developer.paypal.com/api/orders/v2/orders-capture
 - https://developer.paypal.com/api/rest/reference/idempotency/
+- https://developer.paypal.com/api/codes/currency
+- https://developer.paypal.com/payment-links-buttons/overview

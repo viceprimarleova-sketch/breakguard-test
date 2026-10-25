@@ -4,24 +4,58 @@
 
 ## Information still required before live sales
 
-- Legal seller name, establishment/country, postal contact, support email and
-  any applicable registration/tax details: **not supplied**.
+- Complete legal seller name, lawful establishment, postal contact, support
+  email and applicable registration/tax details in the private order record.
+  Seller registration and the business activity classification are **not yet
+  verified**. This repository template intentionally contains no personal
+  seller or customer record.
 - Intended customer type and location, applicable contractual/tax treatment,
   invoice details, approved customer total and payment account eligibility:
   **not verified**.
 - Approved license duration, delivery date, support availability, refund terms,
   data retention/deletion contacts and governing terms: **Founder decision pending**.
 
-Romanian citizenship/documents or an existing PayPal account alone do not resolve
-these facts. Do not complete them using assumptions or activate payments first.
+An existing personal payment account or citizenship document alone does not
+resolve those facts. Do not complete them using assumptions or activate sales
+first. The proposed first offer is for a professional/business customer; verify
+that status and jurisdiction rather than applying this draft to consumers.
+
+For a seller operating in Moldova, confirm the actual activity and legal route.
+The official independent-entrepreneur guidance distinguishes eligible services
+from product sales. A software license plus support cannot simply be relabeled
+as consulting to assume eligibility. This draft does not determine registration
+or tax treatment: https://freelance.mded.gov.md/.
+
+## Proposed GBP total, delivery and support
+
+Proposed one-time customer total: GBP 42.00, subject to the actual tax review
+and a complete accepted order. No subscription or automatic renewal is included.
+The invoice currency is GBP; exchange rates and conversion charges are set by
+the payment provider/card issuer. No fixed EUR equivalent is promised.
+
+Set a written delivery deadline in the order, proposed within two business days
+after the agreed start conditions and verified payment. The seller must approve
+that deadline before sending the offer. Deliver the agreed pinned build, its
+checksum, examples and instructions through access limited to the actual buyer.
+No private project transfer is required.
+
+Proposed support: up to two asynchronous email exchanges during seven calendar
+days from the explicit agreed start date. One exchange means one customer
+question/report and one response, with a clarification if needed to understand
+that issue. Scope: installation, supported CLI behavior, interpreting redacted
+findings and restore instructions. No round-the-clock response, new rule,
+private-code review, store work or general migration service is promised.
 
 ## Proposed limited pilot
 
 The offer would identify one customer, repository, build, three supported rule
 families, environment and agreed period. Proposed grant: use the delivered build
-locally for that pilot, with the customer's own right to inspect its source
-repository. Redistribution/resale, later maintenance, new rules and subscriptions
-are not included unless separately agreed. This proposed license is not in force.
+locally for the one agreed repository, with no automatic expiry of that pinned
+build and with the customer's own right to inspect its source repository.
+Redistribution/resale, later maintenance, new rules and subscriptions are not
+included unless separately agreed. This proposed grant is subject to ownership
+and final license review and is not in force. It does not restrict separate
+rights granted by dependencies or charge for an already free evaluation kit.
 
 The seller would deliver the package and instructions on an agreed date and
 provide the support explicitly accepted in the offer. The developer reviews
@@ -35,9 +69,18 @@ to eliminate all deprecations, remove dashboard warnings or prevent disruption.
 Final warranties, responsibilities and any limitations need jurisdiction-specific
 review; this draft does not waive mandatory customer rights.
 
-Proposed correction/refund handling must match the approved offer, provider
-rules and applicable rights. Keep an acceptance/delivery/payment record. Do not
-represent an unapproved refund window as a legal deadline.
+Proposed discretionary refund: the full GBP 42.00 on request within seven
+calendar days from the agreed start, or if the agreed delivery deadline cannot
+be met. Proposed seller action: initiate an approved refund against the original
+provider transaction within five business days of the request. Actual bank or
+provider posting time is not guaranteed. Currency conversion can change the
+equivalent in the buyer's funding currency; do not promise a fixed EUR refund.
+This is a commercial proposal, not a statement of a statutory deadline.
+
+The policy needs the Founder's explicit approval and a verified way to perform
+it in the actual account. No automatic refund, payout or expense is authorized
+by this document. Keep a private acceptance/delivery/payment/refund record and
+preserve applicable customer/provider rights. Match `PILOT_OFFER_DRAFT.md`.
 
 ## Factual data notice for this candidate
 
@@ -68,12 +111,17 @@ for graphql-core; its permissions are separate from BreakGuard's proposed terms.
 Do not include third-party public project source in a customer kit without its
 license/notice review; this kit uses synthetic examples instead.
 
-## Provider references checked October 25, 2026
+## Provider references checked October 25–26, 2026
 
 - PayPal Sandbox: https://developer.paypal.com/sandbox-testing/overview
 - PayPal legal agreements: https://www.paypal.com/legalhub
-- Romanian-resident PayPal agreement, only if applicable to the eventual account:
-  https://www.paypal.com/ro/legalhub/paypal/useragreement-full
+- https://developer.paypal.com/payment-links-buttons/overview
+- https://www.paypal.com/md/cshelp/article/how-do-i-get-a-refund-help100
+- https://www.paypal.com/md/cshelp/article/where-is-my-refund-help130
+- https://freelance.mded.gov.md/
+
+Select the agreement actually applicable to the eventual merchant account; a
+GBP balance or Romanian citizenship does not establish that account's country.
 
 Selecting PayPal Sandbox is a technical test choice, not confirmation that a
 particular live account or legal seller can accept these payments.
