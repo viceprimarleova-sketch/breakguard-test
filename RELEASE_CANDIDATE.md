@@ -6,10 +6,12 @@ the Founder's explicit approval. Merge commit:
 This remains a controlled testing candidate. Unattended merge stays disabled.
 See `docs/PILOT_READINESS.md` for distinct release/market gates.
 
-A local, unpublished follow-up addresses response-name conflicts in some
-`priceRule` edits. See `docs/GRAPHQL_RESPONSE_REVIEW_2026-10-25.md`; the published
-rc2 artifact does not yet include that correction. Publication, hosted checks
-on the follow-up and final integration remain separate gates.
+The response-name follow-up for some `priceRule` edits is tracked in PR #7:
+https://github.com/viceprimarleova-sketch/breakguard-test/pull/7
+The dated `docs/GRAPHQL_RESPONSE_REVIEW_2026-10-25.md` records evidence captured
+before publication; use the PR for current hosted checks and integration state.
+The earlier delivery kit at product commit
+`2a56d555931b436551e84b3b8b32803c9c064094` did not contain this correction.
 
 ## Implemented
 

@@ -358,5 +358,6 @@
     ],
     "original_query_sha256": "1a8699e2bf485090808cff614aa4ceb267a2b815824a2718eccbc8bfc761f46c",
     "unsafe_proposed_query_sha256": "d81375f4c21d5d67c9b94de6c643d913334d9c301b3a94e4fd0ae29b89902ed1"
-  }
+  },
+  "evidence_capture_phase": "before PR #7 publication; current CI and merge state are recorded in that PR"
 }

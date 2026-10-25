@@ -2,7 +2,7 @@
 
 All notable changes to BreakGuard are recorded here.
 
-## Unreleased — local review follow-up
+## Unreleased — response-name safety follow-up
 
 - Keep `priceRule` migration manual when newly introduced response names may
   collide with aliases, including aliases in outer selections or named

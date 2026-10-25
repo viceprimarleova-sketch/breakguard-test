@@ -1,10 +1,11 @@
 # GraphQL response-name follow-up — October 25, 2026
 
-**State: local review only, based on product commit
+**State when this evidence was captured: local review only, based on product commit
 `2a56d555931b436551e84b3b8b32803c9c064094`. Not published or integrated.**
 The runtime version is still `0.1.0rc2`; this patch is not a new release. The
 previous integrated candidate and its hosted checks remain historical evidence
-for their exact code, not for this follow-up.
+for their exact code, not for this follow-up. Current publication, CI and merge
+state are recorded in [PR #7](https://github.com/viceprimarleova-sketch/breakguard-test/pull/7).
 
 ## Reproduced problem
 
@@ -49,7 +50,7 @@ The new `scripts/validate_schema_migrations.py` is a separate, offline QA tool.
 - All three automatic cases restored exact original bytes. The installed CLI
   workflow also passed: three findings, two edits, one manual finding, exact
   restore and refusal to overwrite later edits. Payment check was offline only.
-- Hosted checks for this follow-up have **not** run. No real Shopify app tests,
+- Hosted checks had **not** run when this evidence was captured. No real Shopify app tests,
   response-consumer tests, store calls or developer acceptance test occurred.
 
 Machine-readable results and exact schema digests are in
@@ -72,8 +73,9 @@ It never downloads schemas or sends queries to a store.
 
 ## Next gates
 
-1. Founder approves publication of this correction as a review PR. Run hosted
-   checks on that exact head, then seek separate final integration approval.
+1. The Founder has since approved publication and integration conditional on
+   all hosted checks passing. Retain that exact-head gate; current CI and merge
+   state are recorded in PR #7 rather than inferred from this earlier evidence.
 2. Until the correction is integrated, avoid automatic `priceRule` edits in
    documents with the response-name/fragment ambiguity described above.
 3. A consenting Shopify developer spends 30–60 minutes on a disposable local
@@ -83,6 +85,6 @@ It never downloads schemas or sends queries to a store.
 4. Record usefulness and any willingness to accept the proposed EUR 49 pilot
    separately. Schema validity and demonstrations do not establish either.
 
-No new external messages, public changes, payments or expenses were made in
+No new external outreach messages, live payments or expenses are part of
 this follow-up. The separate web prototype remains private. Reddit blocked
 the approved introduction in this browser; that message was not sent.
