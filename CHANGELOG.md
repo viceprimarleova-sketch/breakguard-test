@@ -2,6 +2,15 @@
 
 All notable changes to BreakGuard are recorded here.
 
+## Unreleased — local review follow-up
+
+- Keep `priceRule` migration manual when newly introduced response names may
+  collide with aliases, including aliases in outer selections or named
+  fragments. Documents with unresolved external fragments also stay manual.
+- Add eight response-name regressions and an offline QA utility for validating
+  synthetic migration cases against complete local Shopify schema snapshots.
+  This is not schema validation inside the product CLI or a new release.
+
 ## 0.1.0rc2 — Integrated for controlled testing
 
 ### Included backup protection follow-up
