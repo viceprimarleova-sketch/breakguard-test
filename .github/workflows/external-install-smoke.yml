@@ -44,6 +44,13 @@ jobs:
           breakguard --help
           python -c "from breakguard.cli import default_rules_path; p=default_rules_path(); assert p.exists(), p; print(p)"
 
+      - name: Prepare the pinned offline delivery wheels
+        run: |
+          python -c "import os, subprocess, sys; from pathlib import Path; p=Path(os.environ['RUNNER_TEMP'])/'bg-delivery-wheels'; subprocess.run([sys.executable,'-m','pip','wheel','--no-deps','--wheel-dir',str(p),'.'],check=True); subprocess.run([sys.executable,'-m','pip','download','--only-binary=:all:','--no-deps','--dest',str(p),'graphql-core==3.2.13'],check=True)"
+
+      - name: Verify the actual offline delivery on this operating system
+        run: python -c "import os, subprocess, sys; from pathlib import Path; subprocess.run([sys.executable,'scripts/check_delivery_kit.py','--wheel-dir',str(Path(os.environ['RUNNER_TEMP'])/'bg-delivery-wheels')],check=True)"
+
       - name: Create a disposable vulnerable fixture
         run: python -c "from pathlib import Path; p=Path('bg-fixture'); p.mkdir(exist_ok=True); (p/'query.graphql').write_text('query Buyer { customer { id lastIncompleteCheckout { id } } }\n', encoding='utf-8')"
 

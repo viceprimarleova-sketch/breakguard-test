@@ -2,21 +2,23 @@
 
 ## Verified candidate
 
-Version `0.1.0rc2` is integrated for controlled testing at runtime source
-`461558f3d7bc8db06fe89a6137b278163a1ec7c5`, following the Founder's approvals of
-PR #6 and PR #7. That exact source passed 85 tests and six hosted checks:
+Version `0.1.0rc2` is integrated for controlled testing at product source
+`a711aad687018cc25b8a5919a30c25d1c2929824`, following the Founder's approval of
+PR #9. That exact merged source passed 88 tests and six hosted checks:
 
 - Python 3.10/3.11/3.12:
-  https://github.com/viceprimarleova-sketch/breakguard-test/actions/runs/40185328957
+  https://github.com/viceprimarleova-sketch/breakguard-test/actions/runs/40244402264
 - Ubuntu/macOS/Windows installed workflow:
-  https://github.com/viceprimarleova-sketch/breakguard-test/actions/runs/40185328887
+  https://github.com/viceprimarleova-sketch/breakguard-test/actions/runs/40244402224
 
-The external evaluation wheel matches all 12 runtime/rule files at that source.
-Its SHA-256 is `892c653d9e2d3fc9fdb4eab6a853c8e17befae3c764d4ae92044697920d68628`.
-A fresh offline installation from the developer evaluation kit passed scan,
-preview, two guarded edits, rescan, exact restore and later-edit protection on
-synthetic files. Four manual cases remained unchanged. These are technical
-checks, not independent customer acceptance.
+The previously delivered free evaluation remains pinned to earlier source
+`461558f3d7bc8db06fe89a6137b278163a1ec7c5` (85 tests). Its wheel SHA-256 is
+`892c653d9e2d3fc9fdb4eab6a853c8e17befae3c764d4ae92044697920d68628`.
+That frozen kit passed offline scan, preview, two guarded edits, rescan, exact
+restore and later-edit protection on synthetic files. Four manual cases stayed
+unchanged. It does not silently acquire later changes. New delivery builds must
+record their own source and wheel hashes using `EVALUATION_PACKAGING.md`.
+These are technical checks, not independent customer acceptance.
 
 This is not a final 0.1.0 release or commercial launch. The private synthetic web
 demonstration remains separate. See `PUBLIC_SOURCE_VALIDATION_2026-10-25.md` for
@@ -38,7 +40,8 @@ current source evidence and `PILOT_ELIGIBILITY.md` for the proposed selection st
 
 | Gate | State | Next evidence/action |
 | --- | --- | --- |
-| Candidate functionality | Exact source passed 85 tests and six hosted checks | Keep the source/wheel pin; block release for unsafe edits or false success |
+| Candidate functionality | Integrated a711aad source passed 88 tests and six hosted checks | Keep the source/wheel pin; block release for unsafe edits or false success |
+| Evaluation packaging | Reproducible builder and actual-installer protocol prepared on a separate local review branch | Review the new changes, then run hosted checks before integration/distribution |
 | Representative sources | Official Ruby/React Router controls and two public applications scanned read-only; no application execution | Developer checks relevance, response consumers and application tests |
 | Customer usefulness | Not independently validated | Complete `TESTER_GUIDE.md` with a consenting Shopify developer |
 | Buyer fit | Not established from migration-task titles | Confirm an actual useful supported case using `PILOT_ELIGIBILITY.md` |
@@ -49,13 +52,14 @@ current source evidence and `PILOT_ELIGIBILITY.md` for the proposed selection st
 | First manual paid pilot | Proposed individual invoice after fit, seller review and accepted terms | Follow `PAID_PILOT_RUNBOOK.md`; no reusable invoice button or unapproved charge |
 | Revenue | No documented payment | Record only a verified real customer payment |
 
-## GBP quote review branch
+## Integrated GBP quote and separate delivery review
 
-The separate `work/pilot-gbp42-2026-10-26` candidate aligns the fixed Sandbox test
-quote with the GBP 42 proposal and adds regressions for old EUR 49 orders and
-captures. It is not the already integrated source or the already sent free kit.
-Its local test/build evidence is recorded in `GBP42_REVIEW_2026-10-26.md`; hosted
-checks and final integration still require the authorized review workflow.
+PR #9 integrated the GBP 42 Sandbox test quote and regressions for old EUR 49
+orders/captures. `GBP42_REVIEW_2026-10-26.md` is the earlier preparation snapshot;
+the exact integrated source and final hosted runs are recorded above. The
+separate `work/evaluation-delivery-2026-10-26` branch prepares reproducible,
+technical-only packaging, delivery verification and updated tester instructions.
+It requires its own review, hosted checks and approval before integration.
 Older dated audits and the contact history below retain the earlier EUR 49
 proposal as history, not a current quote or an exchange-rate guarantee.
 
