@@ -25,10 +25,11 @@ python3 -m venv .venv
 ```
 
 Python 3.10 or newer is required. Runtime source at commit
-`461558f3d7bc8db06fe89a6137b278163a1ec7c5` passed 85 installed-package tests
+`a711aad687018cc25b8a5919a30c25d1c2929824` passed 88 automated tests
 and hosted checks on Python 3.10–3.12, plus the installed workflow on Ubuntu,
-macOS and Windows. PR #7 integrated the response-name guard with the Founder's
-approval. These results apply to that exact source, not a final commercial release.
+macOS and Windows. PR #9 integrated the GBP 42 test quote and delivery drafts
+with the Founder's approval. These results apply to that exact source, not a
+final commercial release. The earlier response-name guard remains included.
 
 Use `--force-reinstall` when replacing an earlier rc2 build: its version number
 alone does not distinguish the earlier wheel from the corrected one. Check the
@@ -45,10 +46,14 @@ For reproducible evaluations, pin the tested commit recorded in the delivery
 kit. For example, the integrated runtime verified above can be installed with:
 
 ```sh
-python -m pip install --force-reinstall "git+https://github.com/viceprimarleova-sketch/breakguard-test.git@461558f3d7bc8db06fe89a6137b278163a1ec7c5"
+python -m pip install --force-reinstall "git+https://github.com/viceprimarleova-sketch/breakguard-test.git@a711aad687018cc25b8a5919a30c25d1c2929824"
 ```
 
 For a local source checkout, use `python -m pip install '.[test]'` instead.
+
+For maintainers, `docs/EVALUATION_PACKAGING.md` describes building the technical
+evaluation ZIP from an exact source, checking its integrity, and testing its
+actual offline installer. No upload or customer message is part of that process.
 
 ## Detect → preview → edit → verify → restore
 

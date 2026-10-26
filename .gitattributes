@@ -1,0 +1,3 @@
+# Keep installed source bytes identical to the committed tree on Windows too.
+*.py text eol=lf
+*.json text eol=lf

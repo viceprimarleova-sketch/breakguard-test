@@ -50,7 +50,7 @@ return. Separately verify, on a disposable example, that editing a changed file
 after apply makes restore refuse the operation rather than overwrite later work.
 Keep the local backup if needed; never upload it to us.
 
-## 4. Usefulness and price — 10–15 minutes
+## 4. Independent usefulness — 10–15 minutes
 
 Ask the developer to describe their last migration and how they found affected
 code. Show the report, then ask:
@@ -59,8 +59,12 @@ code. Show the report, then ask:
 2. What is missing or misleading? Which source forms are essential?
 3. How does this compare with your current search, schema validation and Shopify
    dashboard workflow?
-4. Would the proposed EUR 49 one-repository pilot be worth considering? What
-   would have to be demonstrated first? A positive answer is interest, not a sale.
+4. Would you use the current workflow again on a real migration? What would
+   have to improve first? Record a concrete example in the developer's own words.
+
+This free technical evaluation does not require a price discussion, purchase
+commitment or payment. If the developer later requests an assisted paid pilot,
+qualify the supported case and review the separately approved offer and terms.
 
 Record answers in `FEEDBACK_TEMPLATE.md`. Share only voluntary, redacted findings
 and aggregate counts; source files, backups, store identifiers and secrets stay
@@ -73,7 +77,8 @@ local. Do not start a charge during a validation session.
 - Proposed/applied diff and application test outcome: pass/fail/not tested.
 - Restore/conflict behavior: pass/fail.
 - Developer's usefulness judgment: verbatim permissioned short feedback.
-- Paid pilot: declined / interested / accepted offer / paid. Keep these distinct.
+- Any later commercial follow-up: record separately; do not count free testing
+  as accepting an offer or paying.
 
 An unsafe edit or operational false success blocks release. Unsupported essential
 source forms change the product scope before a commercial promise is made.
