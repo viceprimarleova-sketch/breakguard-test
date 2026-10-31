@@ -68,16 +68,8 @@ install check blocks distribution of that artifact.
 Never silently change a previously shared ZIP or Drive file when a new build is
 prepared. Keep the already delivered build and its historical evidence intact.
 A new candidate requires its own reviewed identity and delivery decision.
-After integration, rebuild from the exact integrated commit and verify again
-before distribution; a prepared ZIP is not a published release. The recorded
-hosted external-install workflow passed on Ubuntu/macOS/Windows, but the run's
-artifact listing currently returns no downloadable ZIP. A fresh archive still
-needs to be built, hashed, extracted and manually inspected before it can be
-called the final deliverable.
-
-The free kit asks for technical/usefulness feedback without a price question.
-Use `TESTER_GUIDE.md` for a consenting Shopify developer's 30–60 minute test on
-a repository they understand. Record relevant/irrelevant/missed cases, actual
-API/version, response consumers, their own application tests, restore and the
-developer's judgment. Synthetic success and read-only public scans do not
-establish independent Shopify utility, willingness to pay or application safety.
+The external-install workflow for the integrated source passed on Ubuntu,
+macOS and Windows. The workflow artifact listing returned no downloadable ZIP
+during this review. Build a fresh archive from the exact integrated commit,
+record its hashes, extract it and inspect/install it before calling it the final
+deliverable. A prepared ZIP is not a published release.
