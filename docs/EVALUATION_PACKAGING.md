@@ -1,9 +1,9 @@
 # Reproducible free evaluation delivery
 
-The kit is a technical evaluation, not a paid offer or final release. The source
-and builder must be committed locally before building; publication/integration
-and external delivery remain subject to the Founder's approval. A local source
-commit is recorded honestly even if it has not been pushed.
+The kit is a technical evaluation, not a paid offer or final release. The
+builder and verifier are integrated in PR #10 at
+`b65f1125abb43f05cca659f7e645dff397901518`. External distribution of a new
+candidate remains subject to the Founder's approval.
 
 ## Build from the source being reviewed
 
