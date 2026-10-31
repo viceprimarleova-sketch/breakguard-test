@@ -24,12 +24,14 @@ python3 -m venv .venv
 .venv/bin/breakguard --version
 ```
 
-Python 3.10 or newer is required. Runtime source at commit
-`a711aad687018cc25b8a5919a30c25d1c2929824` passed 88 automated tests
-and hosted checks on Python 3.10–3.12, plus the installed workflow on Ubuntu,
-macOS and Windows. PR #9 integrated the GBP 42 test quote and delivery drafts
-with the Founder's approval. These results apply to that exact source, not a
-final commercial release. The earlier response-name guard remains included.
+Python 3.10 or newer is required. Integrated product source: `b65f1125abb43f05cca659f7e645dff397901518` (PR #10). The
+previous runtime-only source `a711aad687018cc25b8a5919a30c25d1c2929824` passed
+88 tests. The subsequent delivery-kit integration added 12 regression tests
+(100 total in the recorded local suite) and was checked by hosted workflows:
+Python 3.10–3.12 and installed offline workflow on Ubuntu, macOS and Windows.
+See `docs/PILOT_READINESS.md` for exact run links and evidence boundaries.
+These are technical checks, not independent Shopify-developer acceptance or a
+final commercial release.
 
 Use `--force-reinstall` when replacing an earlier rc2 build: its version number
 alone does not distinguish the earlier wheel from the corrected one. Check the
@@ -42,8 +44,9 @@ python -m pip install --force-reinstall "git+https://github.com/viceprimarleova-
 breakguard --version
 ```
 
-For reproducible evaluations, pin the tested commit recorded in the delivery
-kit. For example, the integrated runtime verified above can be installed with:
+For reproducible evaluations, pin the exact source commit recorded in the
+new delivery kit identity. Do not treat the earlier runtime-only commit below
+as the complete delivery-kit integration:
 
 ```sh
 python -m pip install --force-reinstall "git+https://github.com/viceprimarleova-sketch/breakguard-test.git@a711aad687018cc25b8a5919a30c25d1c2929824"
