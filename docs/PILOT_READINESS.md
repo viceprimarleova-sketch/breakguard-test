@@ -1,15 +1,17 @@
-# Pilot readiness — October 26, 2026
+# Pilot readiness — October 31, 2026
 
 ## Verified candidate
 
 Version `0.1.0rc2` is integrated for controlled testing at product source
-`a711aad687018cc25b8a5919a30c25d1c2929824`, following the Founder's approval of
-PR #9. That exact merged source passed 88 tests and six hosted checks:
+`b65f1125abb43f05cca659f7e645dff397901518` (PR #10). The earlier runtime-only
+source `a711aad687018cc25b8a5919a30c25d1c2929824` passed 88 tests. PR #10 added
+12 delivery regression tests; the recorded local suite total is 100. The
+integrated source also passed the following hosted workflow jobs:
 
 - Python 3.10/3.11/3.12:
-  https://github.com/viceprimarleova-sketch/breakguard-test/actions/runs/40244402264
+  https://github.com/viceprimarleova-sketch/breakguard-test/actions/runs/40303103298
 - Ubuntu/macOS/Windows installed workflow:
-  https://github.com/viceprimarleova-sketch/breakguard-test/actions/runs/40244402224
+  https://github.com/viceprimarleova-sketch/breakguard-test/actions/runs/40303103299
 
 The previously delivered free evaluation remains pinned to earlier source
 `461558f3d7bc8db06fe89a6137b278163a1ec7c5` (85 tests). Its wheel SHA-256 is
@@ -41,7 +43,7 @@ current source evidence and `PILOT_ELIGIBILITY.md` for the proposed selection st
 | Gate | State | Next evidence/action |
 | --- | --- | --- |
 | Candidate functionality | Integrated a711aad source passed 88 tests and six hosted checks | Keep the source/wheel pin; block release for unsafe edits or false success |
-| Evaluation packaging | Reproducible builder and actual-installer protocol prepared on a separate local review branch | Review the new changes, then run hosted checks before integration/distribution |
+| Evaluation packaging | PR #10 integrated the builder, verifier and technical-only evaluation kit; hosted external-install workflow passed on Ubuntu/macOS/Windows | Build a fresh artifact from the exact integrated commit, record identity/hashes, then independently inspect/install that ZIP before distribution |
 | Representative sources | Official Ruby/React Router controls and two public applications scanned read-only; no application execution | Developer checks relevance, response consumers and application tests |
 | Customer usefulness | Not independently validated | Complete `TESTER_GUIDE.md` with a consenting Shopify developer |
 | Buyer fit | Not established from migration-task titles | Confirm an actual useful supported case using `PILOT_ELIGIBILITY.md` |
@@ -86,3 +88,13 @@ do not present the narrow checker as a general Hydrogen migration service.
 
 Any scope expansion should be justified by concrete developer evidence. A zero
 finding is a control within disclosed coverage, not a compatibility certificate.
+
+
+## Current evidence boundary (October 31)
+
+The hosted workflow run IDs above are recorded as successful in GitHub Actions.
+The workflow artifact listing for run `40303103299` returned no downloadable
+artifact. Therefore no fresh ZIP has yet been downloaded, hashed or manually
+installed by this review. The previous free kit remains untouched. No Shopify
+developer has completed the independent usefulness protocol; paid fit, willingness
+to pay, seller eligibility, tax treatment and a real payment remain unverified.
