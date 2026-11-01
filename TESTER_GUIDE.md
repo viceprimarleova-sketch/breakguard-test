@@ -10,6 +10,27 @@ Install the exact wheel from the kit using its README. Record `breakguard
 local identifier that will not be shared). Work in a disposable clone or a clean
 temporary Git branch. No credentials, private code or store access are requested.
 
+**Windows PowerShell:** extract the kit first. In File Explorer, open the
+extracted folder, click the address bar, type `powershell`, and press Enter.
+This opens the terminal in the correct directory. Run one command at a time:
+
+```powershell
+py -3 --version
+.\\install_windows.cmd
+.\\.venv\\Scripts\\breakguard.exe --version
+```
+
+If `py` is not recognised, install Python 3.10+ from python.org, enable its
+PATH option, close PowerShell, reopen it from the extracted folder, and retry.
+If installation fails, stop and capture the complete error. Do not continue
+with later commands after a failed step.
+
+In PowerShell, executables in the current directory need the `.\\` prefix.
+For example, use `.\\.venv\\Scripts\\breakguard.exe`, not
+`.venv\\Scripts\\breakguard.exe`. Do not copy the `PS C:\\...>` prompt.
+The Romanian quick-start file `evaluation/START_HERE_RO.md` contains the same
+step-by-step setup.
+
 The synthetic `demo_project` should have three findings: two standalone GraphQL
 edits and one manual ScriptTag result. After preview and apply there should be one
 manual finding. `manual_cases` adds static embedded examples that must never be
