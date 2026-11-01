@@ -7,13 +7,23 @@ with Python 3.10 or newer; a phone cannot run this CLI package.
 
 ## Install the exact delivery
 
-Extract into a new folder. Open a terminal there and run:
+Extract into a new folder. Open a terminal in that folder and run one command
+at a time.
 
 Windows PowerShell:
 ```powershell
-.\install_windows.cmd
-.\.venv\Scripts\python.exe scripts\release_smoke.py
+py -3 --version
+.\\install_windows.cmd
+.\\.venv\\Scripts\\python.exe scripts\\release_smoke.py
 ```
+
+To open PowerShell in the correct folder, open the extracted folder in File
+Explorer, click its address bar, type `powershell`, and press Enter. In
+PowerShell, use the `.\\` prefix to run files from the current folder; do not
+type the prompt (`PS C:\\...>`) or paste several commands onto one line. If
+`py` is not recognised, install Python 3.10+ from python.org, enable the PATH
+option, close and reopen PowerShell in the extracted folder, then retry. If
+installation fails, stop and keep the complete error message.
 
 macOS / Linux:
 ```sh
@@ -59,7 +69,7 @@ execution, independent developer acceptance or a commercial guarantee.
 ## Detect → preview → apply → verify → restore
 
 Use a disposable clone or temporary clean Git branch. Replace `BG` below with
-`.venv/bin/breakguard` or Windows `.venv\Scripts\breakguard.exe`:
+`.venv/bin/breakguard` or Windows `.venv\\Scripts\\breakguard.exe`:
 
 ```text
 BG PROJECT --report ../before.json
