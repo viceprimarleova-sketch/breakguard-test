@@ -54,17 +54,16 @@ current source evidence and `PILOT_ELIGIBILITY.md` for the proposed selection st
 | First manual paid pilot | Proposed individual invoice after fit, seller review and accepted terms | Follow `PAID_PILOT_RUNBOOK.md`; no reusable invoice button or unapproved charge |
 | Revenue | No documented payment | Record only a verified real customer payment |
 
-## Integrated GBP quote and separate delivery review
+## Integrated GBP quote and delivery
 
 PR #9 integrated the GBP 42 Sandbox test quote and regressions for old EUR 49
-orders/captures. `GBP42_REVIEW_2026-10-26.md` is the earlier preparation snapshot;
-the exact integrated source and final hosted runs are recorded above. The
-separate `work/evaluation-delivery-2026-10-26` branch prepares reproducible,
-technical-only packaging, delivery verification and updated tester instructions.
-It requires its own review, hosted checks and approval before integration.
-Older dated audits and the contact history below retain the earlier EUR 49
-proposal as history, not a current quote or an exchange-rate guarantee.
-
+orders/captures. PR #10 subsequently integrated the reproducible builder,
+verifier and technical-only evaluation-kit workflow into product source
+b65f1125abb43f05cca659f7e645dff397901518. The earlier
+work/evaluation-delivery-2026-10-26 branch is no longer awaiting integration;
+its changes are part of PR #10. The package is still a technical candidate, not
+a published final release. Older dated audits retain EUR 49 as history, not a
+current quote or an exchange-rate guarantee.
 ## Contact evidence
 
 On October 25 the Founder approved one individual email requesting free technical
@@ -98,3 +97,44 @@ artifact. Therefore no fresh ZIP has yet been downloaded, hashed or manually
 installed by this review. The previous free kit remains untouched. No Shopify
 developer has completed the independent usefulness protocol; paid fit, willingness
 to pay, seller eligibility, tax treatment and a real payment remain unverified.
+
+
+## Status update — November 2, 2026
+
+The hosted evidence was inspected beyond the job-level success badges. On the
+integrated product commit b65f1125abb43f05cca659f7e645dff397901518:
+
+- CI run [40303103298](https://github.com/viceprimarleova-sketch/breakguard-test/actions/runs/40303103298)
+  reports **100 tests passed** on each Python 3.10, 3.11 and 3.12 matrix job.
+- External-install run [40303103299](https://github.com/viceprimarleova-sketch/breakguard-test/actions/runs/40303103299)
+  completed all steps on Ubuntu, macOS and Windows. Each runner built and
+  extracted an offline evaluation ZIP, installed the included wheels, matched
+  all 12 runtime hashes, passed the synthetic workflow with exact restore,
+  preserved four manual findings and disclosed one skipped dynamic document.
+
+The three runners recorded different wheel and archive SHA-256 values for the
+same source commit (wheel prefixes: 71bb99bb122d, 2894d0e35792,
+ebeeaa198a24; ZIP prefixes: c00bb2ebfcfe, 5b4914435179,
+2e24e12ae79b). The runtime files matched on every OS and all jobs passed,
+but the cross-runner byte-level variance has not been explained. If a single
+canonical release artifact is intended, build it once in a pinned environment
+and test that exact ZIP on all three OSes rather than independently building
+one ZIP per runner.
+
+The Actions artifact listing for run 40303103299 is empty. These hosted checks
+therefore prove successful ephemeral runner-built offline installation, not that
+a fresh ZIP was downloaded, retained, manually inspected or installed on the
+Founder's physical Windows computer. PR #10 records a prior Linux candidate hash,
+but that archive was not retrieved and reverified in this reporting run.
+
+Sandu's October 28 synthetic Windows demonstration is documented separately in
+EXTERNAL_EVALUATION_SANDU_2026-10-28.md. He is not a Shopify specialist and
+his feedback does not establish real-project usefulness or commercial demand.
+The current documentation review branch contains the evidence note and
+PowerShell quick-start corrections; it is not merged and no CI result has been
+claimed for those documentation-only commits.
+
+No specialist developer response, validated buyer fit, actual PayPal Sandbox
+transaction, approved final terms, live payment, revenue, new outreach or
+commercial commitment is recorded as of this update. Draft test PRs #1–#5 remain
+open and unmerged; no cleanup action has been taken.
