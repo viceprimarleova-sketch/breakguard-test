@@ -16,8 +16,8 @@ This opens the terminal in the correct directory. Run one command at a time:
 
 ```powershell
 py -3 --version
-.\\install_windows.cmd
-.\\.venv\\Scripts\\breakguard.exe --version
+.\install_windows.cmd
+.\.venv\Scripts\breakguard.exe --version
 ```
 
 If `py` is not recognised, install Python 3.10+ from python.org, enable its
@@ -25,9 +25,9 @@ PATH option, close PowerShell, reopen it from the extracted folder, and retry.
 If installation fails, stop and capture the complete error. Do not continue
 with later commands after a failed step.
 
-In PowerShell, executables in the current directory need the `.\\` prefix.
-For example, use `.\\.venv\\Scripts\\breakguard.exe`, not
-`.venv\\Scripts\\breakguard.exe`. Do not copy the `PS C:\\...>` prompt.
+In PowerShell, executables in the current directory need the `.\` prefix.
+For example, use `.\.venv\Scripts\breakguard.exe`, not
+`.venv\Scripts\breakguard.exe`. Do not copy the `PS C:\...>` prompt.
 The Romanian quick-start file `evaluation/START_HERE_RO.md` contains the same
 step-by-step setup.
 
