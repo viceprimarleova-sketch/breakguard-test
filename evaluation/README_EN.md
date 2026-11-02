@@ -11,33 +11,33 @@ Extract into a new folder. Open a terminal in that folder and run one command
 at a time.
 
 Windows PowerShell:
-\`\`\`powershell
+```powershell
 py -3 --version
 .\install_windows.cmd
 .\.venv\Scripts\python.exe scripts\release_smoke.py
-\`\`\`
+```
 
 To open PowerShell in the correct folder, open the extracted folder in File
-Explorer, click its address bar, type \`powershell\`, and press Enter. In
-PowerShell, use the \`.\` prefix to run files from the current folder; do not
-type the prompt (\`PS C:\...>\`) or paste several commands onto one line. If
-\`py\` is not recognised, install Python 3.10+ from python.org, enable the PATH
+Explorer, click its address bar, type `powershell`, and press Enter. In
+PowerShell, use the `.` prefix to run files from the current folder; do not
+type the prompt (`PS C:\...>`) or paste several commands onto one line. If
+`py` is not recognised, install Python 3.10+ from python.org, enable the PATH
 option, close and reopen PowerShell in the extracted folder, then retry. If
 installation fails, stop and keep the complete error message.
 
 macOS / Linux:
-\`\`\`sh
+```sh
 sh install_unix.sh
 .venv/bin/python scripts/release_smoke.py
-\`\`\`
+```
 
-The installer checks the delivered files before creating a local \`.venv\`, then
+The installer checks the delivered files before creating a local `.venv`, then
 installs from the two included wheels, without downloading Python packages.
 It deliberately reinstalls the build even over the same rc2 version number.
-\`EVALUATION_IDENTITY.json\` records the exact source commit and wheel hashes;
+`EVALUATION_IDENTITY.json` records the exact source commit and wheel hashes;
 the version number alone does not identify a build. To check delivery manually,
-run \`python3 verify_kit.py\` (Windows: \`py -3 verify_kit.py\`). This checks delivered
-files, excluding an installed \`.venv\`; SHA-256 is not a signed publisher identity.
+run `python3 verify_kit.py` (Windows: `py -3 verify_kit.py`). This checks delivered
+files, excluding an installed `.venv`; SHA-256 is not a signed publisher identity.
 Keep reports outside this folder and verify before changing the examples.
 
 The smoke test uses temporary synthetic files: **3 findings → 2 guarded edits →
@@ -49,13 +49,13 @@ no money. This is not a PayPal Sandbox transaction or a working live checkout.
 
 | Family | Supported action |
 | --- | --- |
-| Customer Account \`Customer.lastIncompleteCheckout\` | Guarded removal in eligible standalone GraphQL; review response consumers |
-| Admin \`DraftOrderDiscountNotAppliedWarning.priceRule\` | Guarded replacement in eligible standalone GraphQL; review response consumers |
+| Customer Account `Customer.lastIncompleteCheckout` | Guarded removal in eligible standalone GraphQL; review response consumers |
+| Admin `DraftOrderDiscountNotAppliedWarning.priceRule` | Guarded replacement in eligible standalone GraphQL; review response consumers |
 | ScriptTag create/update patterns | Manual review only |
 
 Static marked JS/TS GraphQL templates and recognized Ruby heredocs are
 detection-only. Ambiguous fields, aliases and unsupported selections stay manual.
-\`manual_cases\` has four manual findings and must receive no edits. \`coverage_cases\`
+`manual_cases` has four manual findings and must receive no edits. `coverage_cases`
 has a dynamic document that should be counted as skipped. Dynamic/unrecognized
 queries, other languages, generated and ignored paths may be missed. Zero
 findings does not certify Shopify API compatibility.
@@ -63,35 +63,35 @@ findings does not certify Shopify API compatibility.
 Edits validate GraphQL syntax, not Shopify schema compatibility or application
 behavior. Independently confirm the actual API surface/version and response
 consumers. Run the application's own tests; the CLI does not run them for you.
-The dated \`PUBLIC_SOURCE_NOTES.md\` is read-only source evidence, not application
+The dated `PUBLIC_SOURCE_NOTES.md` is read-only source evidence, not application
 execution, independent developer acceptance or a commercial guarantee.
 
 ## Detect → preview → apply → verify → restore
 
-Use a disposable clone or temporary clean Git branch. Replace \`BG\` below with
-\`.venv/bin/breakguard\` or Windows \`.venv\Scripts\breakguard.exe\`:
+Use a disposable clone or temporary clean Git branch. Replace `BG` below with
+`.venv/bin/breakguard` or Windows `.venv\Scripts\breakguard.exe`:
 
-\`\`\`text
+```text
 BG PROJECT --report ../before.json
 BG PROJECT --fix-preview
 BG PROJECT --apply-fixes --report ../after.json
 BG PROJECT --report ../verify.json
 BG PROJECT --restore BACKUP_ID
-\`\`\`
+```
 
-Use new report filenames. Exit \`0\`: no supported findings; \`1\`: findings remain;
-\`2\`: error, stop and investigate. Review the preview before apply, compare the
+Use new report filenames. Exit `0`: no supported findings; `1`: findings remain;
+`2`: error, stop and investigate. Review the preview before apply, compare the
 diff afterwards, run the application's tests, then restore using the ID printed
-during apply or \`backup_id\` in the report. Restore checks integrity and refuses
+during apply or `backup_id` in the report. Restore checks integrity and refuses
 later edits. If refused, preserve the files and inspect manually; do not force
 an overwrite. Backups contain unencrypted original source under
-\`.breakguard/backups\` and must stay local.
+`.breakguard/backups` and must stay local.
 
 ## A useful independent test
 
-Follow \`TESTER_GUIDE.md\` for a 30–60 minute session on code you understand.
+Follow `TESTER_GUIDE.md` for a 30–60 minute session on code you understand.
 The synthetic smoke proves only the controlled workflow. Independent Shopify
 developer usefulness, real application safety and willingness to pay remain
-unvalidated. Use the empty \`FEEDBACK_TEMPLATE.md\` for voluntary redacted feedback.
+unvalidated. Use the empty `FEEDBACK_TEMPLATE.md` for voluntary redacted feedback.
 Do not send source, backups, secrets, store identifiers or unredacted paths.
 No payment or paid-pilot decision is needed to complete this evaluation.
