@@ -138,3 +138,22 @@ No specialist developer response, validated buyer fit, actual PayPal Sandbox
 transaction, approved final terms, live payment, revenue, new outreach or
 commercial commitment is recorded as of this update. Draft test PRs #1–#5 remain
 open and unmerged; no cleanup action has been taken.
+
+## Documentation follow-up — November 2, 2026
+
+The separate documentation review branch `review/sandu-evaluation-evidence-2026-11-01`
+now includes PowerShell-first-run instructions in the Romanian quick start,
+English evaluation README and developer tester guide. The text instructs users
+to open PowerShell in the extracted kit folder, run one command at a time,
+use the `.` prefix for current-directory executables, and stop/capture the full
+error if installation fails. The English README and Romanian quick start were
+read back from GitHub and the intended command strings were confirmed.
+
+This is a documentation-only adjustment informed by Sandu's reported shell
+friction. No product runtime, installer script or rules were changed. No hosted
+or local runtime test was run against these documentation commits; the existing
+100-test CI and three-OS external-install results apply to the integrated product
+commit b65f1125abb43f05cca659f7e645dff397901518, not this review branch.
+
+The branch remains unmerged. No fresh ZIP has been materialized, manually
+installed, or verified in this update; there is no new package hash to report.
