@@ -1,17 +1,56 @@
-name: BreakGuard External Install Smoke
+name: BreakGuard Single Artifact Verification
 
 on:
-  push:
+  pull_request:
     branches:
       - breakguard/product-v0.1
-  pull_request:
+  push:
     branches:
       - breakguard/product-v0.1
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
-  external-install:
-    name: External install - ${{ matrix.os }}
+  build-kit:
+    name: Build one canonical evaluation kit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact candidate
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build pinned delivery wheels
+        run: |
+          python -m pip install --upgrade pip
+          mkdir -p ../evaluation-wheels ../evaluation-output
+          python -m pip wheel --no-deps --wheel-dir ../evaluation-wheels .
+          python -m pip download --only-binary=:all: --no-deps --dest ../evaluation-wheels graphql-core==3.2.13
+      - name: Build canonical ZIP once
+        id: build
+        run: |
+          python scripts/build_pilot_kit.py --wheel-dir ../evaluation-wheels --out-dir ../evaluation-output
+          archive="$(find ../evaluation-output -maxdepth 1 -type f -name '*.zip' -print -quit)"
+          test -n "$archive"
+          mkdir -p canonical-kit
+          cp "$archive" canonical-kit/
+          artifact_archive="canonical-kit/$(basename "$archive")"
+          echo "archive=$artifact_archive" >> "$GITHUB_OUTPUT"
+          sha256sum "$artifact_archive"
+      - name: Upload canonical ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: breakguard-canonical-evaluation-kit
+          path: canonical-kit/*.zip
+          if-no-files-found: error
+          retention-days: 7
+
+  verify-same-kit:
+    name: Verify same ZIP - ${{ matrix.os }}
+    needs: build-kit
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -20,48 +59,21 @@ jobs:
           - ubuntu-latest
           - macos-latest
           - windows-latest
-
     steps:
-      - name: Checkout the candidate smoke protocol
+      - name: Checkout verifier at exact candidate
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-
-      - name: Upgrade pip
-        run: python -m pip install --upgrade pip
-
-      - name: Install BreakGuard exactly like an external tester
-        run: python -m pip install "git+https://github.com/viceprimarleova-sketch/breakguard-test.git@${{ github.event.pull_request.head.sha || github.sha }}"
-
-      - name: Verify installed command and bundled rules
+      - name: Download the single canonical ZIP
+        uses: actions/download-artifact@v4
+        with:
+          name: breakguard-canonical-evaluation-kit
+          path: canonical-kit
+      - name: Install and verify the exact downloaded ZIP offline
+        shell: bash
         run: |
-          breakguard --version
-          breakguard --help
-          python -c "from breakguard.cli import default_rules_path; p=default_rules_path(); assert p.exists(), p; print(p)"
-
-      - name: Prepare the pinned offline delivery wheels
-        run: |
-          python -c "import os, subprocess, sys; from pathlib import Path; p=Path(os.environ['RUNNER_TEMP'])/'bg-delivery-wheels'; subprocess.run([sys.executable,'-m','pip','wheel','--no-deps','--wheel-dir',str(p),'.'],check=True); subprocess.run([sys.executable,'-m','pip','download','--only-binary=:all:','--no-deps','--dest',str(p),'graphql-core==3.2.13'],check=True)"
-
-      - name: Verify the actual offline delivery on this operating system
-        run: python -c "import os, subprocess, sys; from pathlib import Path; subprocess.run([sys.executable,'scripts/check_delivery_kit.py','--wheel-dir',str(Path(os.environ['RUNNER_TEMP'])/'bg-delivery-wheels')],check=True)"
-
-      - name: Create a disposable vulnerable fixture
-        run: python -c "from pathlib import Path; p=Path('bg-fixture'); p.mkdir(exist_ok=True); (p/'query.graphql').write_text('query Buyer { customer { id lastIncompleteCheckout { id } } }\n', encoding='utf-8')"
-
-      - name: Confirm scan detects the fixture
-        run: python -c "import subprocess; r=subprocess.run(['breakguard','bg-fixture','--json']); raise SystemExit(0 if r.returncode == 1 else 1)"
-
-      - name: Confirm preview shows a diff without changing source
-        run: python -c "import subprocess; from pathlib import Path; p=Path('bg-fixture/query.graphql'); before=p.read_text(); r=subprocess.run(['breakguard','bg-fixture','--fix-preview'], capture_output=True, text=True); assert r.returncode == 1; assert '--- a/query.graphql' in r.stdout; assert '+++ b/query.graphql' in r.stdout; assert p.read_text() == before"
-
-      - name: Confirm conservative autofix clears the supported finding
-        run: breakguard bg-fixture --apply-fixes
-
-      - name: Verify full installed workflow and conflict-aware restore
-        run: python scripts/release_smoke.py
+          archive="$(find canonical-kit -maxdepth 1 -type f -name '*.zip' -print -quit)"
+          test -n "$archive"
+          python scripts/check_prebuilt_kit.py "$archive"
