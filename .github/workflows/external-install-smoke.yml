@@ -35,13 +35,16 @@ jobs:
           python scripts/build_pilot_kit.py --wheel-dir ../evaluation-wheels --out-dir ../evaluation-output
           archive="$(find ../evaluation-output -maxdepth 1 -type f -name '*.zip' -print -quit)"
           test -n "$archive"
-          echo "archive=$archive" >> "$GITHUB_OUTPUT"
-          sha256sum "$archive"
+          mkdir -p canonical-kit
+          cp "$archive" canonical-kit/
+          artifact_archive="canonical-kit/$(basename "$archive")"
+          echo "archive=$artifact_archive" >> "$GITHUB_OUTPUT"
+          sha256sum "$artifact_archive"
       - name: Upload canonical ZIP
         uses: actions/upload-artifact@v4
         with:
           name: breakguard-canonical-evaluation-kit
-          path: ${{ steps.build.outputs.archive }}
+          path: canonical-kit/*.zip
           if-no-files-found: error
           retention-days: 7
 
@@ -67,10 +70,10 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: breakguard-canonical-evaluation-kit
-          path: ../canonical-kit
+          path: canonical-kit
       - name: Install and verify the exact downloaded ZIP offline
         shell: bash
         run: |
-          archive="$(find ../canonical-kit -maxdepth 1 -type f -name '*.zip' -print -quit)"
+          archive="$(find canonical-kit -maxdepth 1 -type f -name '*.zip' -print -quit)"
           test -n "$archive"
           python scripts/check_prebuilt_kit.py "$archive"
